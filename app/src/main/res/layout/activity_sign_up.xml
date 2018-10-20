@@ -15,7 +15,7 @@
     >
 
     <LinearLayout
-        android:id="@+id/signin_form"
+        android:id="@+id/signup_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -30,7 +30,7 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/signin_email_hint"
+                android:hint="@string/signup_email_hint"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -47,9 +47,9 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/signin_password_hint"
+                android:hint="@string/signup_password_hint"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/signin_imeaction_short"
+                android:imeActionLabel="@string/signup_imeaction_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -58,21 +58,21 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/signInButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/signin_button_signin"
-            android:textStyle="bold"
-            />
-
-        <TextView
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="@string/signup_button_signup"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/signInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:text="@string/signin_button_signup"
+            android:text="@string/signup_button_signin"
             android:textStyle="bold"
             />
     </LinearLayout>
