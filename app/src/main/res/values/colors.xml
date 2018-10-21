@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- made from https://material.io/tools/color/#!/?view.left=0&view.right=1&primary.color=2f2ad6&secondary.color=ff8223 -->
+    <color name="primaryColor">#2f2ad6</color>
+    <color name="primaryLightColor">#7357ff</color>
+    <color name="primaryDarkColor">#0000a3</color>
+    <color name="secondaryColor">#ff8223</color>
+    <color name="secondaryLightColor">#ffb355</color>
+    <color name="secondaryDarkColor">#c55300</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="colorPrimary">@color/primaryColor</color>
+    <color name="colorPrimaryDark">@color/primaryDarkColor</color>
+    <color name="colorAccent">@color/secondaryColor</color>
 
     <color name="error_red">#FF0000</color>
 </resources>
