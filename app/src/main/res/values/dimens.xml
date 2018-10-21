@@ -15,6 +15,11 @@
     <dimen name="text_body">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>
 
+    <dimen name="spacing_1">4dp</dimen>
+    <dimen name="spacing_2">8dp</dimen>
+    <dimen name="spacing_3">16dp</dimen>
+    <dimen name="spacing_4">24dp</dimen>
+
     <!--defined size-->
     <dimen name="button_corner_size">2dp</dimen>
 </resources>

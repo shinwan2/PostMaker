@@ -44,7 +44,7 @@
                 android:id="@+id/error_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/spacing_3"
                 android:textColor="@color/error_red"
                 android:textSize="@dimen/text_body"
                 android:visibility="gone"
@@ -97,7 +97,7 @@
                 style="?buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/spacing_3"
                 android:background="@drawable/btn_yellow"
                 >
 
