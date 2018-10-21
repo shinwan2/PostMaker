@@ -104,6 +104,7 @@ class SignInActivity : AppCompatActivity() {
 
         override fun setButtonEnabled(enabled: Boolean) {
             signInButton.isEnabled = enabled
+            signInButtonText.isEnabled = enabled
         }
 
         override fun showSuccessMessage() {
