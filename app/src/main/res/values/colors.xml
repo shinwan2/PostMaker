@@ -15,4 +15,9 @@
     <color name="colorAccent">@color/secondaryColor</color>
 
     <color name="error_red">#FF0000</color>
+
+    <color name="button_dark_highlight">@color/button_ripple</color>
+    <color name="button_yellow">@color/secondaryColor</color>
+    <color name="button_disabled">#CCCCCC</color>
+    <color name="button_ripple">#CCCCCC</color>
 </resources>
