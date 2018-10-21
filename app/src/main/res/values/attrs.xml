@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="my_topActionBarTheme" format="reference" />
+    <attr name="my_topActionBarBackground" format="color" />
+    <attr name="my_contextActionBarBackground" format="color" />
+</resources>

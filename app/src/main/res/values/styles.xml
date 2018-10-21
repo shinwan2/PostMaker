@@ -5,5 +5,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="my_topActionBarTheme">@style/ActionBarTheme</item>
+    </style>
+
+    <!--Actionbar Theme-->
+    <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="my_topActionBarBackground">@color/primaryColor</item>
+        <item name="my_contextActionBarBackground">@color/primaryLightColor</item>
+        <!-- color to tint android icon -->
+        <item name="colorControlNormal">@android:color/white</item>
+        <!-- cursor color for search view -->
+        <item name="colorControlActivated">@android:color/white</item>
+        <!-- hint color for edit text -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <!-- color for general text -->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="actionMenuTextColor">@color/selector_menu_item_tint_dark_background</item>
+    </style>
+    <style name="MyActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:theme">?attr/my_topActionBarTheme</item>
+        <item name="background">?attr/my_topActionBarBackground</item>
     </style>
 </resources>

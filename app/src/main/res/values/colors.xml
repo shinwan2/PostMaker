@@ -16,6 +16,9 @@
 
     <color name="error_red">#FF0000</color>
 
+    <color name="icon_disabled_light_background">#61000000</color>
+    <color name="icon_disabled_dark_background">#7FFFFFFF</color>
+
     <color name="button_dark_highlight">@color/button_ripple</color>
     <color name="button_yellow">@color/secondaryColor</color>
     <color name="button_disabled">#CCCCCC</color>
