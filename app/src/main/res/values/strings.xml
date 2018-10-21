@@ -5,6 +5,7 @@
     <string name="signin_email_hint">Email</string>
     <string name="signin_password_hint">Password</string>
     <string name="signin_button_signin">Sign in</string>
+    <string name="signin_label_haveaccount_format">Have an account? %s</string>
     <string name="signin_button_signup">Sign up</string>
     <string name="signin_imeaction_short">Sign in</string>
     <string name="signin_message_success">You are signed in</string>

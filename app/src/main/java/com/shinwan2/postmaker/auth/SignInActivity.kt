@@ -3,10 +3,17 @@ package com.shinwan2.postmaker.auth
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.shinwan2.postmaker.R
 import dagger.android.AndroidInjection
@@ -51,7 +58,7 @@ class SignInActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel::class.java)
 
-        signUpButton.setOnClickListener { navigateToSignUp() }
+        signUpButton.createSignUpButtonText()
         signInButton.setOnClickListener { viewModel.signIn() }
 
         viewModel.start(Listener())
@@ -65,10 +72,6 @@ class SignInActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    private fun navigateToSignUp() {
-        startActivity(SignUpActivity.intent(this))
-    }
-
     override fun onDestroy() {
         viewModel.stop()
         signUpButton.setOnClickListener(null)
@@ -76,6 +79,38 @@ class SignInActivity : AppCompatActivity() {
         emailEditText.removeTextChangedListener(emailTextWatcher)
         passwordEditText.removeTextChangedListener(passwordTextWatcher)
         super.onDestroy()
+    }
+
+    private fun navigateToSignUp() {
+        startActivity(SignUpActivity.intent(this))
+    }
+
+    private fun TextView.createSignUpButtonText() {
+        val insertedString = getString(R.string.signin_button_signup)
+        val spannable = SpannableString(getString(
+            R.string.signin_label_haveaccount_format, insertedString
+        ))
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+                navigateToSignUp()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = ContextCompat.getColor(this@SignInActivity, R.color.text_link)
+                ds.isUnderlineText = true
+            }
+        }
+
+        val replaceIndex = spannable.indexOf(insertedString)
+        spannable.setSpan(clickableSpan,
+            replaceIndex, replaceIndex + insertedString.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        text = spannable
+        movementMethod = LinkMovementMethod.getInstance()
+        highlightColor = ContextCompat.getColor(this@SignInActivity, R.color.button_ripple)
     }
 
     private inner class Listener : SignInViewModel.Listener {

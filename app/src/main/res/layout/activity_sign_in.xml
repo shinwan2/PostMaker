@@ -137,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/signin_button_signup"
+                android:textColor="?my_textColorSecondary"
                 android:textStyle="bold"
                 />
         </LinearLayout>
