@@ -11,6 +11,7 @@ import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableCompletableObserver
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
+import kotlinx.android.synthetic.main.activity_sign_up.error_message
 import kotlinx.android.synthetic.main.activity_sign_up.passwordEditText
 import kotlinx.android.synthetic.main.activity_sign_up.signInButton
 import kotlinx.android.synthetic.main.activity_sign_up.signUpButton
@@ -49,6 +50,7 @@ class SignUpActivity : AppCompatActivity() {
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "createUserWithEmail:failure")
+                    error_message.text = e.message
                     Toast.makeText(
                         this@SignUpActivity,
                         "Authentication failed.",

@@ -8,6 +8,7 @@ import com.shinwan2.postmaker.domain.SchedulerManager
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableCompletableObserver
+import kotlinx.android.synthetic.main.activity_sign_in.error_message
 import kotlinx.android.synthetic.main.activity_sign_in.signInButton
 import kotlinx.android.synthetic.main.activity_sign_in.signUpButton
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
@@ -51,6 +52,7 @@ class SignInActivity : AppCompatActivity() {
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "signInWithEmail:failure")
+                    error_message.text = e.message
                     Toast.makeText(
                         this@SignInActivity,
                         "Authentication failed.",

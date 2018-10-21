@@ -2,8 +2,10 @@ package com.shinwan2.postmaker.core
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
+import com.shinwan2.postmaker.domain.auth.AuthenticationException
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import io.reactivex.Completable
+import java.util.concurrent.ExecutionException
 
 class FirebaseAuthenticationService(
     private val firebaseAuth: FirebaseAuth
@@ -13,8 +15,8 @@ class FirebaseAuthenticationService(
             try {
                 Tasks.await(firebaseAuth.signInWithEmailAndPassword(email, password))
                 emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
+            } catch (e: ExecutionException) {
+                emitter.onError(AuthenticationException(e.cause!!))
             }
         }
     }
@@ -24,16 +26,20 @@ class FirebaseAuthenticationService(
             try {
                 Tasks.await(firebaseAuth.createUserWithEmailAndPassword(email, password))
                 emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
+            } catch (e: ExecutionException) {
+                emitter.onError(AuthenticationException(e.cause!!))
             }
         }
     }
 
     override fun signOut(): Completable {
         return Completable.create { emitter ->
-            firebaseAuth.signOut()
-            emitter.onComplete()
+            try {
+                firebaseAuth.signOut()
+                emitter.onComplete()
+            } catch (e: Throwable) {
+                emitter.onError(AuthenticationException(e))
+            }
         }
     }
 }
