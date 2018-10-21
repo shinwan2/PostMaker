@@ -33,6 +33,7 @@
             style="@style/Widget.Design.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="?my_editTextTheme"
             >
 
             <EditText
@@ -44,7 +45,6 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:theme="?my_editTextTheme"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -52,6 +52,7 @@
             style="@style/Widget.Design.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="?my_editTextTheme"
             >
 
             <EditText
@@ -65,7 +66,6 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:theme="?my_editTextTheme"
                 />
         </android.support.design.widget.TextInputLayout>
 
