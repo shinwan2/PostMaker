@@ -22,4 +22,7 @@
 
     <!--defined size-->
     <dimen name="button_corner_size">2dp</dimen>
+
+    <dimen name="auth_appname_width">240dp</dimen>
+    <dimen name="auth_appname_height">120dp</dimen>
 </resources>

@@ -40,6 +40,14 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             >
 
+            <ImageView
+                android:layout_width="@dimen/auth_appname_width"
+                android:layout_height="@dimen/auth_appname_height"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/signin_contentdescription_appname"
+                android:src="@drawable/app_name"
+                />
+
             <TextView
                 android:id="@+id/error_message"
                 android:layout_width="match_parent"
@@ -107,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/signin_button_signin"
+                    android:textAllCaps="true"
                     android:textColor="?my_textColorPrimary"
                     android:textStyle="bold"
                     />
