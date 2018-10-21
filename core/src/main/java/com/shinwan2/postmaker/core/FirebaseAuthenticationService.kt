@@ -2,7 +2,7 @@ package com.shinwan2.postmaker.core
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
-import com.shinwan2.postmaker.domain.AuthenticationService
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import io.reactivex.Completable
 
 class FirebaseAuthenticationService(

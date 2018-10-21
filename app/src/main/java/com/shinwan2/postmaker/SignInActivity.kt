@@ -3,7 +3,7 @@ package com.shinwan2.postmaker
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.shinwan2.postmaker.domain.AuthenticationService
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.SchedulerManager
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable

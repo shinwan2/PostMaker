@@ -1,4 +1,4 @@
-package com.shinwan2.postmaker.domain
+package com.shinwan2.postmaker.domain.auth
 
 import io.reactivex.Completable
 

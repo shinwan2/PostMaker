@@ -1,6 +1,6 @@
 package com.shinwan2.postmaker.core.di
 
-import com.shinwan2.postmaker.domain.AuthenticationService
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.SchedulerManager
 import dagger.Component
 
