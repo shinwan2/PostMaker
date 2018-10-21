@@ -99,6 +99,7 @@ class SignInActivity : AppCompatActivity() {
 
         override fun setValidationMessage(error: String?) {
             error_message.text = error
+            error_message.visibility = if (error.isNullOrBlank()) View.GONE else View.VISIBLE
         }
 
         override fun setButtonEnabled(enabled: Boolean) {
