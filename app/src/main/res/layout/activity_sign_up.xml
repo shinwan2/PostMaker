@@ -43,6 +43,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:theme="?my_editTextTheme"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -62,6 +63,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:theme="?my_editTextTheme"
                 />
         </android.support.design.widget.TextInputLayout>
 

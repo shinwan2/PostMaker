@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="my_editTextTheme">@style/MyEditTextTheme</item>
         <item name="my_topActionBarTheme">@style/ActionBarTheme</item>
     </style>
 
@@ -27,5 +28,9 @@
     <style name="MyActionBarStyle" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:theme">?attr/my_topActionBarTheme</item>
         <item name="background">?attr/my_topActionBarBackground</item>
+    </style>
+    <style name="MyEditTextTheme" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorHighlight">@color/primaryLightColor</item>
     </style>
 </resources>
