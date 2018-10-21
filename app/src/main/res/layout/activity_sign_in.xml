@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/signin_button_signin"
-                    android:textColor="@color/secondaryTextColor"
+                    android:textColor="?my_textColorPrimary"
                     android:textStyle="bold"
                     />
 

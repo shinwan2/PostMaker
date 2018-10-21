@@ -2,9 +2,18 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+
+        <!-- text colors -->
+        <item name="my_textColorPrimary">@color/selector_text_primary_dark</item>
+        <item name="my_textColorPrimaryInverse">@color/selector_text_primary_light</item>
+        <item name="my_textColorSecondary">@color/selector_text_secondary_dark</item>
+        <item name="my_textColorPrimaryDisableOnly">@color/text_disabled_dark</item>
+        <item name="my_textColorHighlight">@color/primaryColor</item>
+        <item name="my_textColorHint">@color/text_hint_dark</item>
+        <item name="my_textColorLink">@color/text_link</item>
 
         <item name="my_editTextTheme">@style/MyEditTextTheme</item>
         <item name="my_topActionBarTheme">@style/ActionBarTheme</item>
@@ -29,6 +38,7 @@
         <item name="android:theme">?attr/my_topActionBarTheme</item>
         <item name="background">?attr/my_topActionBarBackground</item>
     </style>
+
     <style name="MyEditTextTheme" parent="AppTheme">
         <item name="colorAccent">@color/primaryColor</item>
         <item name="android:textColorHighlight">@color/primaryColor</item>

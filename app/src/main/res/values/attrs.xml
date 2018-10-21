@@ -4,5 +4,14 @@
     <attr name="my_topActionBarBackground" format="color" />
     <attr name="my_contextActionBarBackground" format="color" />
 
+    <!-- text color based on android text color attributes -->
+    <attr name="my_textColorPrimary" format="reference|color" />
+    <attr name="my_textColorPrimaryInverse" format="reference|color" />
+    <attr name="my_textColorSecondary" format="reference|color" />
+    <attr name="my_textColorPrimaryDisableOnly" format="reference|color" />
+    <attr name="my_textColorHint" format="reference|color" />
+    <attr name="my_textColorHighlight" format="reference|color" />
+    <attr name="my_textColorLink" format="reference|color" />
+
     <attr name="my_editTextTheme" format="reference" />
 </resources>

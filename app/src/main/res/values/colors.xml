@@ -7,13 +7,23 @@
     <color name="secondaryColor">#ff8223</color>
     <color name="secondaryLightColor">#ffb355</color>
     <color name="secondaryDarkColor">#c55300</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
 
-    <color name="colorPrimary">@color/primaryColor</color>
-    <color name="colorPrimaryDark">@color/primaryDarkColor</color>
-    <color name="colorAccent">@color/secondaryColor</color>
+    <!-- 87% opacity -->
+    <color name="text_primary_dark">#DE000000</color>
+    <!-- 54% opacity -->
+    <color name="text_secondary_dark">#8A000000</color>
+    <!-- 38% opacity -->
+    <color name="text_hint_dark">#61000000</color>
+    <color name="text_disabled_dark">#61000000</color>
 
+    <!-- 85% opacity -->
+    <color name="text_primary_light">#D9FFFFFF</color>
+    <!-- 68% opacity -->
+    <color name="text_secondary_light">#ADFFFFFF</color>
+    <!-- 20% opacity -->
+    <color name="text_hint_light">#33FFFFFF</color>
+    <color name="text_disabled_light">#33FFFFFF</color>
+    <color name="text_link">#0000EE</color>
     <color name="error_red">#FF0000</color>
 
     <color name="icon_disabled_light_background">#61000000</color>
