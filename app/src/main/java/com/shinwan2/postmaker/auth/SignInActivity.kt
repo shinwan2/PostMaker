@@ -1,8 +1,9 @@
-package com.shinwan2.postmaker
+package com.shinwan2.postmaker.auth
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.SchedulerManager
 import dagger.android.AndroidInjection
