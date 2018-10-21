@@ -5,13 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.SchedulerManager
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableCompletableObserver
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
 import kotlinx.android.synthetic.main.activity_sign_up.passwordEditText
+import kotlinx.android.synthetic.main.activity_sign_up.signInButton
 import kotlinx.android.synthetic.main.activity_sign_up.signUpButton
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         signUpButton.setOnClickListener { signUp() }
+        signInButton.setOnClickListener { finish() }
     }
 
     private fun signUp() {
