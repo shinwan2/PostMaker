@@ -42,4 +42,9 @@ class FirebaseAuthenticationService(
             }
         }
     }
+
+    override fun isUserLoggedIn(userId: String?): Boolean {
+        if (userId == null) return firebaseAuth.currentUser != null
+        return firebaseAuth.currentUser?.uid == userId
+    }
 }
