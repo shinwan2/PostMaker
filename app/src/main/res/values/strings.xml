@@ -7,7 +7,7 @@
     <string name="signin_password_hint">Password</string>
     <string name="signin_password_required_error">Password is required</string>
     <string name="signin_button_signin">Sign in</string>
-    <string name="signin_label_haveaccount_format">Have an account? %s</string>
+    <string name="signin_label_noaccount_format">Don\'t have an account yet? %s</string>
     <string name="signin_button_signup">Sign up</string>
     <string name="signin_imeaction_short">Sign in</string>
     <string name="signin_message_success">You are signed in</string>

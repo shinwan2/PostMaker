@@ -91,7 +91,7 @@ class SignInActivity : AppCompatActivity() {
     private fun TextView.createSignUpButtonText() {
         val insertedString = getString(R.string.signin_button_signup)
         val spannable = SpannableString(getString(
-            R.string.signin_label_haveaccount_format, insertedString
+            R.string.signin_label_noaccount_format, insertedString
         ))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
