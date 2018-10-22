@@ -86,8 +86,8 @@ class SignUpActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun navigateToSignUp() {
-        startActivity(SignUpActivity.intent(this))
+    private fun navigateToSignIn() {
+        startActivity(SignInActivity.intent(this))
     }
 
     private fun TextView.createSignInButtonText() {
@@ -97,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
         ))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                navigateToSignUp()
+                navigateToSignIn()
             }
 
             override fun updateDrawState(ds: TextPaint) {

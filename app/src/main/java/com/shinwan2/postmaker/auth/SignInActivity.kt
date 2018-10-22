@@ -2,6 +2,8 @@ package com.shinwan2.postmaker.auth
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -179,5 +181,9 @@ class SignInActivity : AppCompatActivity() {
         override fun navigateToNextScreen() {
             finish()
         }
+    }
+
+    companion object {
+        fun intent(context: Context) = Intent(context, SignInActivity::class.java)
     }
 }
