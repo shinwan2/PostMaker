@@ -26,7 +26,6 @@ class SignInViewModel(
 
     val isSigningIn get() = !(disposable?.isDisposed ?: true)
 
-    private var validationMessage: String? = null
     private var buttonState: Boolean = false
     private var listener: Listener? = null
     private var disposable: Disposable? = null
@@ -60,11 +59,7 @@ class SignInViewModel(
             .subscribeWith(object : DisposableCompletableObserver() {
                 override fun onStart() {
                     super.onStart()
-                    validationMessage = null
-                    listener?.also {
-                        it.setProgressVisible(true)
-                        it.setValidationMessage(validationMessage)
-                    }
+                    listener?.setProgressVisible(true)
                 }
 
                 override fun onComplete() {
@@ -78,10 +73,9 @@ class SignInViewModel(
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "signInWithEmail:failure")
-                    validationMessage = e.message
                     listener?.also {
                         it.setProgressVisible(false)
-                        it.setValidationMessage(validationMessage)
+                        it.showErrorMessage(e.message)
                     }
                 }
             })
@@ -105,9 +99,7 @@ class SignInViewModel(
 
         setEmailText(emailText.orEmpty())
         setPasswordText(passwordText.orEmpty())
-
         setProgressVisible(isSigningIn)
-        setValidationMessage(validationMessage)
         validateForm()
     }
 
@@ -118,7 +110,7 @@ class SignInViewModel(
         fun setProgressVisible(visible: Boolean)
         fun setErrorEmailRequiredVisible(visible: Boolean)
         fun setErrorPasswordRequiredVisible(visible: Boolean)
-        fun setValidationMessage(error: String?)
+        fun showErrorMessage(error: String?)
         fun setButtonEnabled(enabled: Boolean)
 
         fun showSuccessMessage()

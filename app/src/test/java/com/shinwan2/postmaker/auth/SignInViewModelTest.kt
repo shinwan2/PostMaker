@@ -68,7 +68,6 @@ class SignInViewModelTest {
 
         verify(listener).setErrorEmailRequiredVisible(false)
         verify(listener).setErrorPasswordRequiredVisible(false)
-        verify(listener).setValidationMessage(null)
     }
 
     @Test
@@ -198,7 +197,7 @@ class SignInViewModelTest {
 
         viewModel.signIn()
 
-        verify(listener).setValidationMessage(error)
+        verify(listener).showErrorMessage(error)
     }
 
     private fun verifyLastValueBoolean(

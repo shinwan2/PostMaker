@@ -19,7 +19,6 @@ import com.shinwan2.postmaker.R
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import kotlinx.android.synthetic.main.activity_sign_in.emailTil
-import kotlinx.android.synthetic.main.activity_sign_in.error_message
 import kotlinx.android.synthetic.main.activity_sign_in.passwordEditText
 import kotlinx.android.synthetic.main.activity_sign_in.passwordTil
 import kotlinx.android.synthetic.main.activity_sign_in.progressBar
@@ -152,9 +151,8 @@ class SignInActivity : AppCompatActivity() {
             }
         }
 
-        override fun setValidationMessage(error: String?) {
-            error_message.text = error
-            error_message.visibility = if (error.isNullOrBlank()) View.GONE else View.VISIBLE
+        override fun showErrorMessage(error: String?) {
+            Toast.makeText(this@SignInActivity, error, Toast.LENGTH_SHORT).show()
         }
 
         override fun setButtonEnabled(enabled: Boolean) {

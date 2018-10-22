@@ -48,16 +48,6 @@
                 android:src="@drawable/app_name"
                 />
 
-            <TextView
-                android:id="@+id/error_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_3"
-                android:textColor="@color/error_red"
-                android:textSize="@dimen/text_body"
-                android:visibility="gone"
-                />
-
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/emailTil"
                 style="@style/Widget.Design.TextInputLayout"
