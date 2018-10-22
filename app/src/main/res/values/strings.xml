@@ -1,30 +1,29 @@
 <resources>
     <string name="app_name">PostMaker</string>
 
-    <string name="signin_title">Sign In</string>
+    <string name="signin_button_signin">Sign in</string>
+    <string name="signin_button_signup">Sign up</string>
+    <string name="signin_contentdescription_appname">PostMaker app logo</string>
     <string name="signin_email_hint">Email</string>
     <string name="signin_email_required_error">Email is required</string>
+    <string name="signin_imeaction_short">Sign in</string>
+    <string name="signin_label_noaccount_format">Don\'t have an account yet? %s</string>
+    <string name="signin_message_alreadysignedin">Already signed in</string>
+    <string name="signin_message_success">You are signed in</string>
     <string name="signin_password_hint">Password</string>
     <string name="signin_password_required_error">Password is required</string>
-    <string name="signin_button_signin">Sign in</string>
-    <string name="signin_label_noaccount_format">Don\'t have an account yet? %s</string>
-    <string name="signin_button_signup">Sign up</string>
-    <string name="signin_imeaction_short">Sign in</string>
-    <string name="signin_message_success">You are signed in</string>
-    <string name="signin_message_alreadysignedin">Already signed in</string>
+    <string name="signin_title">Sign In</string>
 
-    <string name="signup_title">Sign Up</string>
-    <string name="signup_label_createaccount">Create your account</string>
-    <string name="signup_label_haveaccount_format">Have an account? %s</string>
-    <string name="signup_email_hint">Email</string>
-    <string name="signup_email_required_error">Email is required</string>
-    <string name="signup_password_hint">Password</string>
-    <string name="signup_password_required_error">Email is required</string>
     <string name="signup_button_signin">Sign in</string>
     <string name="signup_button_signup">Sign up</string>
+    <string name="signup_email_hint">Email</string>
+    <string name="signup_email_required_error">Email is required</string>
     <string name="signup_imeaction_short">Sign up</string>
-    <string name="signup_message_success">You are signed in</string>
+    <string name="signup_label_createaccount">Create your account</string>
+    <string name="signup_label_haveaccount_format">Have an account? %s</string>
     <string name="signup_message_alreadysignedin">Already signed in</string>
-
-    <string name="signin_contentdescription_appname">PostMaker app logo</string>
+    <string name="signup_message_success">You are signed in</string>
+    <string name="signup_password_hint">Password</string>
+    <string name="signup_password_required_error">Email is required</string>
+    <string name="signup_title">Sign Up</string>
 </resources>
