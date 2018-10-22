@@ -13,10 +13,18 @@
     <string name="signin_message_success">You are signed in</string>
     <string name="signin_message_alreadysignedin">Already signed in</string>
 
+    <string name="signup_title">Sign Up</string>
+    <string name="signup_label_createaccount">Create your account</string>
+    <string name="signup_label_haveaccount_format">Have an account? %s</string>
     <string name="signup_email_hint">Email</string>
+    <string name="signup_email_required_error">Email is required</string>
     <string name="signup_password_hint">Password</string>
+    <string name="signup_password_required_error">Email is required</string>
     <string name="signup_button_signin">Sign in</string>
     <string name="signup_button_signup">Sign up</string>
     <string name="signup_imeaction_short">Sign up</string>
+    <string name="signup_message_success">You are signed in</string>
+    <string name="signup_message_alreadysignedin">Already signed in</string>
+
     <string name="signin_contentdescription_appname">PostMaker app logo</string>
 </resources>
