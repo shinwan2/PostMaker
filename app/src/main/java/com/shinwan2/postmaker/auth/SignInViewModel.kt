@@ -64,7 +64,7 @@ class SignInViewModel(
 
                 override fun onComplete() {
                     Timber.d("signInWithEmail:success")
-                    listener?.also {
+                    listener?.let {
                         it.setProgressVisible(false)
                         it.showSuccessMessage()
                         it.navigateToNextScreen()
@@ -73,7 +73,7 @@ class SignInViewModel(
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "signInWithEmail:failure")
-                    listener?.also {
+                    listener?.let {
                         it.setProgressVisible(false)
                         it.showErrorMessage(e.message)
                     }
@@ -83,7 +83,7 @@ class SignInViewModel(
 
     private fun validateForm() {
         buttonState = !emailText.isNullOrEmpty() && !passwordText.isNullOrEmpty()
-        listener?.also {
+        listener?.let {
             it.setErrorEmailRequiredVisible(emailText?.isEmpty() ?: false)
             it.setErrorPasswordRequiredVisible(passwordText?.isEmpty() ?: false)
             it.setButtonEnabled(buttonState)
