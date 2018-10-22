@@ -60,6 +60,8 @@ class SignInActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel::class.java)
 
+        emailEditText.isSaveEnabled = false
+        passwordEditText.isSaveEnabled = false
         signUpButton.createSignUpButtonText()
         signInButton.setOnClickListener { viewModel.signIn() }
 
