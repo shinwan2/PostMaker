@@ -48,6 +48,8 @@ class SignInViewModel(
     }
 
     fun signIn() {
+        if (isSigningIn) return
+
         val email = checkNotNull(emailText)
         val password = checkNotNull(passwordText)
 
@@ -86,7 +88,7 @@ class SignInViewModel(
     }
 
     private fun validateForm() {
-        buttonState = emailText.isNullOrEmpty() && passwordText.isNullOrEmpty()
+        buttonState = !emailText.isNullOrEmpty() && !passwordText.isNullOrEmpty()
         listener?.also {
             it.setErrorEmailRequiredVisible(emailText?.isEmpty() ?: false)
             it.setErrorPasswordRequiredVisible(passwordText?.isEmpty() ?: false)
