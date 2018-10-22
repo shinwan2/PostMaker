@@ -8,13 +8,13 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Provider
 
-@Module(includes = [ViewModelModule::class])
+@Module(includes = [SignInViewModelModule::class])
 internal class SignInActivityModule {
     // hide other dependencies
 }
 
 @Module
-internal class ViewModelModule {
+internal class SignInViewModelModule {
     @Provides
     fun provideViewModelFactory(
         signInViewModelProvider: Provider<SignInViewModel>
