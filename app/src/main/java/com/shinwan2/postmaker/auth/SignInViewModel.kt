@@ -24,7 +24,8 @@ class SignInViewModel(
             validateForm()
         }
 
-    val isSigningIn get() = !(disposable?.isDisposed ?: true)
+    val isSigningIn get() = _isSigningIn
+    private var _isSigningIn = false
 
     private var buttonState: Boolean = false
     private var listener: Listener? = null
@@ -47,7 +48,7 @@ class SignInViewModel(
     }
 
     fun signIn() {
-        if (isSigningIn) return
+        if (_isSigningIn) return
 
         val email = checkNotNull(emailText)
         val password = checkNotNull(passwordText)
@@ -59,11 +60,13 @@ class SignInViewModel(
             .subscribeWith(object : DisposableCompletableObserver() {
                 override fun onStart() {
                     super.onStart()
+                    _isSigningIn = true
                     listener?.setProgressVisible(true)
                 }
 
                 override fun onComplete() {
                     Timber.d("signInWithEmail:success")
+                    _isSigningIn = false
                     listener?.let {
                         it.setProgressVisible(false)
                         it.showSuccessMessage()
@@ -73,6 +76,7 @@ class SignInViewModel(
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "signInWithEmail:failure")
+                    _isSigningIn = false
                     listener?.let {
                         it.setProgressVisible(false)
                         it.showErrorMessage(e.message)
