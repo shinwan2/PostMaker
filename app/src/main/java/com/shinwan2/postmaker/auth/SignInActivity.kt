@@ -18,8 +18,10 @@ import android.widget.Toast
 import com.shinwan2.postmaker.R
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
+import kotlinx.android.synthetic.main.activity_sign_in.emailTil
 import kotlinx.android.synthetic.main.activity_sign_in.error_message
 import kotlinx.android.synthetic.main.activity_sign_in.passwordEditText
+import kotlinx.android.synthetic.main.activity_sign_in.passwordTil
 import kotlinx.android.synthetic.main.activity_sign_in.progressBar
 import kotlinx.android.synthetic.main.activity_sign_in.signInButton
 import kotlinx.android.synthetic.main.activity_sign_in.signInButtonText
@@ -129,6 +131,22 @@ class SignInActivity : AppCompatActivity() {
             } else {
                 progressBar.visibility = View.GONE
                 signInButtonText.visibility = View.VISIBLE
+            }
+        }
+
+        override fun setErrorEmailRequiredVisible(visible: Boolean) {
+            emailTil.error = if (visible) {
+                getString(R.string.signin_email_required_error)
+            } else {
+                null
+            }
+        }
+
+        override fun setErrorPasswordRequiredVisible(visible: Boolean) {
+            passwordTil.error = if (visible) {
+                getString(R.string.signin_password_required_error)
+            } else {
+                null
             }
         }
 

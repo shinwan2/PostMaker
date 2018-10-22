@@ -12,13 +12,13 @@ class SignInViewModel(
     private val schedulerManager: SchedulerManager
 ) : ViewModel() {
 
-    var emailText: String = ""
+    var emailText: String? = null
         set(value) {
             field = value
             validateForm()
         }
 
-    var passwordText: String = ""
+    var passwordText: String? = null
         set(value) {
             field = value
             validateForm()
@@ -48,8 +48,11 @@ class SignInViewModel(
     }
 
     fun signIn() {
+        val email = checkNotNull(emailText)
+        val password = checkNotNull(passwordText)
+
         disposable = authenticationService
-            .signIn(emailText, passwordText)
+            .signIn(email, password)
             .subscribeOn(schedulerManager.backgroundThreadScheduler)
             .observeOn(schedulerManager.uiThreadScheduler)
             .subscribeWith(object : DisposableCompletableObserver() {
@@ -83,8 +86,12 @@ class SignInViewModel(
     }
 
     private fun validateForm() {
-        buttonState = emailText.isNotEmpty() && passwordText.isNotEmpty()
-        listener?.setButtonEnabled(buttonState)
+        buttonState = emailText.isNullOrEmpty() && passwordText.isNullOrEmpty()
+        listener?.also {
+            it.setErrorEmailRequiredVisible(emailText?.isEmpty() ?: false)
+            it.setErrorPasswordRequiredVisible(passwordText?.isEmpty() ?: false)
+            it.setButtonEnabled(buttonState)
+        }
     }
 
     private fun Listener.sync() {
@@ -94,12 +101,12 @@ class SignInViewModel(
             return
         }
 
-        setEmailText(emailText)
-        setPasswordText(passwordText)
+        setEmailText(emailText.orEmpty())
+        setPasswordText(passwordText.orEmpty())
 
         setProgressVisible(isSigningIn)
         setValidationMessage(validationMessage)
-        setButtonEnabled(buttonState)
+        validateForm()
     }
 
     interface Listener {
@@ -107,6 +114,8 @@ class SignInViewModel(
         fun setPasswordText(passwordText: String)
 
         fun setProgressVisible(visible: Boolean)
+        fun setErrorEmailRequiredVisible(visible: Boolean)
+        fun setErrorPasswordRequiredVisible(visible: Boolean)
         fun setValidationMessage(error: String?)
         fun setButtonEnabled(enabled: Boolean)
 
