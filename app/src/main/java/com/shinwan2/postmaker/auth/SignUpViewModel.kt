@@ -32,7 +32,7 @@ class SignUpViewModel(
     private var disposable: Disposable? = null
 
     private val isSignedIn: Boolean
-        get() = authenticationService.isUserLoggedIn()
+        get() = authenticationService.isSignedIn()
 
     init {
         validateForm()

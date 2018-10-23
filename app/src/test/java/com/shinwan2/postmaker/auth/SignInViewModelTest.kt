@@ -72,7 +72,7 @@ class SignInViewModelTest {
 
     @Test
     fun testInitialState_loggedIn() {
-        whenever(authenticationService.isUserLoggedIn()).thenReturn(true)
+        whenever(authenticationService.isSignedIn()).thenReturn(true)
 
         viewModel.start(listener)
 
