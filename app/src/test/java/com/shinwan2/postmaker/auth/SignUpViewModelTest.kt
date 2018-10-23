@@ -25,19 +25,19 @@ private const val VALID_EMAIL = "abc@gmail.com"
 private const val VALID_PASSWORD = "123456"
 
 @RunWith(MockitoJUnitRunner::class)
-class SignInViewModelTest {
+class SignUpViewModelTest {
 
     @Mock
     lateinit var authenticationService: AuthenticationService
     @Rule @JvmField
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: SignInViewModel
+    private lateinit var viewModel: SignUpViewModel
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        viewModel = SignInViewModel(authenticationService, InstantSchedulerManager())
+        viewModel = SignUpViewModel(authenticationService, InstantSchedulerManager())
     }
 
     @Test
@@ -48,7 +48,7 @@ class SignInViewModelTest {
 
     @Test
     fun testInitialState_notSignedIn_noProgressBar() {
-        assertEquals(false, viewModel.isSigningIn.value)
+        assertEquals(false, viewModel.isSigningUp.value)
     }
 
     @Test
@@ -65,7 +65,7 @@ class SignInViewModelTest {
     @Test
     fun testInitialState_signedIn() {
         whenever(authenticationService.isSignedIn()).thenReturn(true)
-        viewModel = SignInViewModel(authenticationService, InstantSchedulerManager())
+        viewModel = SignUpViewModel(authenticationService, InstantSchedulerManager())
         val observer = mock<Observer<Boolean>>()
         viewModel.hasSignedIn.observeForever(observer)
         verify(observer).onChanged(true)
@@ -98,15 +98,15 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun testSignIn_success_showHideProgress() {
-        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+    fun testSignUp_success_showHideProgress() {
+        whenever(authenticationService.signUp(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.complete())
         val observer = mock<Observer<Boolean>>()
-        viewModel.isSigningIn.observeForever(observer)
+        viewModel.isSigningUp.observeForever(observer)
 
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        viewModel.signIn()
+        viewModel.signUp()
 
         inOrder(observer).let {
             it.verify(observer).onChanged(false)
@@ -116,29 +116,29 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun testSignIn_cannotStack() {
-        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+    fun testSignUp_cannotStack() {
+        whenever(authenticationService.signUp(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.never())
 
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
 
-        viewModel.signIn()
-        viewModel.signIn()
+        viewModel.signUp()
+        viewModel.signUp()
 
-        verify(authenticationService).signIn(any(), any())
+        verify(authenticationService).signUp(any(), any())
     }
 
     @Test
-    fun testSignIn_success_showMessageAndNavigateAway() {
-        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+    fun testSignUp_success_showMessageAndNavigateAway() {
+        whenever(authenticationService.signUp(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.complete())
         val observer = mock<Observer<Boolean>>()
         viewModel.hasSignedIn.observeForever(observer)
 
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        viewModel.signIn()
+        viewModel.signUp()
 
         inOrder(observer).let {
             verify(observer).onChanged(false)
@@ -147,15 +147,15 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun testSignIn_error_showHideProgress() {
-        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+    fun testSignUp_error_showHideProgress() {
+        whenever(authenticationService.signUp(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.error(IllegalStateException("ERROR")))
         val observer = mock<Observer<Boolean>>()
-        viewModel.isSigningIn.observeForever(observer)
+        viewModel.isSigningUp.observeForever(observer)
 
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        viewModel.signIn()
+        viewModel.signUp()
 
         inOrder(observer).let {
             it.verify(observer).onChanged(false)
@@ -165,16 +165,16 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun testSignIn_error_showErrorMessage() {
+    fun testSignUp_error_showErrorMessage() {
         val error = "ERROR"
-        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+        whenever(authenticationService.signUp(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.error(IllegalStateException(error)))
         val observer = mock<Observer<Event<String>>>()
         viewModel.errorMessage.observeForever(observer)
 
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        viewModel.signIn()
+        viewModel.signUp()
 
         val argumentCaptor = argumentCaptor<Event<String>>()
         verify(observer).onChanged(argumentCaptor.capture())

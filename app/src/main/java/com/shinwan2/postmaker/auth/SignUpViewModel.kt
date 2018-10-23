@@ -1,8 +1,10 @@
 package com.shinwan2.postmaker.auth
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.shinwan2.postmaker.domain.SchedulerManager
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
+import com.shinwan2.postmaker.util.Event
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableCompletableObserver
 import timber.log.Timber
@@ -24,31 +26,24 @@ class SignUpViewModel(
             validateForm()
         }
 
-    val isSigningUp get() = _isSigningUp
-    private var _isSigningUp = false
+    val isSigningUp = MutableLiveData<Boolean>().also { it.value = false }
+    val isButtonEnabled = MutableLiveData<Boolean>().also { it.value = false }
+    val hasSignedIn = MutableLiveData<Boolean>().also {
+        it.value = authenticationService.isSignedIn()
+    }
 
-    private var buttonState: Boolean = false
-    private var listener: Listener? = null
+    val isErrorEmailRequiredVisible = MutableLiveData<Boolean>().also { it.value = false }
+    val isErrorPasswordRequiredVisible = MutableLiveData<Boolean>().also { it.value = false }
+    val errorMessage = MutableLiveData<Event<String>>()
+
     private var disposable: Disposable? = null
-
-    private val isSignedIn: Boolean
-        get() = authenticationService.isSignedIn()
 
     init {
         validateForm()
     }
 
-    fun start(listener: Listener) {
-        this.listener = listener
-        listener.sync()
-    }
-
-    fun stop() {
-        this.listener = null
-    }
-
     fun signUp() {
-        if (_isSigningUp) return
+        if (isSigningUp.value == true) return
 
         val email = checkNotNull(emailText)
         val password = checkNotNull(passwordText)
@@ -60,65 +55,26 @@ class SignUpViewModel(
             .subscribeWith(object : DisposableCompletableObserver() {
                 override fun onStart() {
                     super.onStart()
-                    _isSigningUp = true
-                    listener?.setProgressVisible(true)
+                    isSigningUp.value = true
                 }
 
                 override fun onComplete() {
                     Timber.d("signUpWithEmail:success")
-                    _isSigningUp = false
-                    listener?.let {
-                        it.setProgressVisible(false)
-                        it.showSuccessMessage()
-                        it.navigateToNextScreen()
-                    }
+                    isSigningUp.value = false
+                    hasSignedIn.value = true
                 }
 
                 override fun onError(e: Throwable) {
                     Timber.w(e, "signUpWithEmail:failure")
-                    _isSigningUp = false
-                    listener?.let {
-                        it.setProgressVisible(false)
-                        it.showErrorMessage(e.message)
-                    }
+                    isSigningUp.value = false
+                    errorMessage.value = Event(e.message!!)
                 }
             })
     }
 
     private fun validateForm() {
-        buttonState = !emailText.isNullOrEmpty() && !passwordText.isNullOrEmpty()
-        listener?.let {
-            it.setErrorEmailRequiredVisible(emailText?.isEmpty() ?: false)
-            it.setErrorPasswordRequiredVisible(passwordText?.isEmpty() ?: false)
-            it.setButtonEnabled(buttonState)
-        }
-    }
-
-    private fun Listener.sync() {
-        if (isSignedIn) {
-            showAlreadySignedIn()
-            navigateToNextScreen()
-            return
-        }
-
-        setEmailText(emailText.orEmpty())
-        setPasswordText(passwordText.orEmpty())
-        setProgressVisible(isSigningUp)
-        validateForm()
-    }
-
-    interface Listener {
-        fun setEmailText(emailText: String)
-        fun setPasswordText(passwordText: String)
-
-        fun setProgressVisible(visible: Boolean)
-        fun setErrorEmailRequiredVisible(visible: Boolean)
-        fun setErrorPasswordRequiredVisible(visible: Boolean)
-        fun showErrorMessage(error: String?)
-        fun setButtonEnabled(enabled: Boolean)
-
-        fun showSuccessMessage()
-        fun showAlreadySignedIn()
-        fun navigateToNextScreen()
+        isButtonEnabled.value = !emailText.isNullOrEmpty() && !passwordText.isNullOrEmpty()
+        isErrorEmailRequiredVisible.value = emailText?.isEmpty() ?: false
+        isErrorPasswordRequiredVisible.value = passwordText?.isEmpty() ?: false
     }
 }
