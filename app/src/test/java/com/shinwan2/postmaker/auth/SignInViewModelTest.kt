@@ -1,32 +1,36 @@
 package com.shinwan2.postmaker.auth
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.atLeastOnce
-import com.nhaarman.mockito_kotlin.clearInvocations
 import com.nhaarman.mockito_kotlin.inOrder
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.nhaarman.mockito_kotlin.whenever
 import com.shinwan2.postmaker.InstantSchedulerManager
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
+import com.shinwan2.postmaker.util.Event
 import io.reactivex.Completable
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
 private const val VALID_EMAIL = "abc@gmail.com"
 private const val VALID_PASSWORD = "123456"
 
+@RunWith(MockitoJUnitRunner::class)
 class SignInViewModelTest {
 
     @Mock
     lateinit var authenticationService: AuthenticationService
-    @Mock
-    private lateinit var listener: SignInViewModel.Listener
+    @Rule @JvmField
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: SignInViewModel
 
@@ -34,7 +38,6 @@ class SignInViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         viewModel = SignInViewModel(authenticationService, InstantSchedulerManager())
-        listener = mock()
     }
 
     @Test
@@ -44,93 +47,71 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun testInitialState_notLoggedIn_emailAndPasswordEmpty() {
-        viewModel.start(listener)
-        verify(listener).setEmailText("")
-        verify(listener).setPasswordText("")
+    fun testInitialState_notSignedIn_noProgressBar() {
+        assertEquals(false, viewModel.isSigningIn.value)
     }
 
     @Test
-    fun testInitialState_notLoggedIn_noProgressBar() {
-        viewModel.start(listener)
-        verify(listener).setProgressVisible(false)
+    fun testInitialState_notSignedIn_buttonDisabled() {
+        assertEquals(false, viewModel.isButtonEnabled.value)
     }
 
     @Test
-    fun testInitialState_notLoggedIn_buttonDisabled() {
-        viewModel.start(listener)
-        verify(listener).setButtonEnabled(false)
+    fun testInitialState_notSignedIn_noErrorTexts() {
+        assertEquals(false, viewModel.isErrorEmailRequiredVisible.value)
+        assertEquals(false, viewModel.isErrorPasswordRequiredVisible.value)
     }
 
     @Test
-    fun testInitialState_notLoggedIn_noErrorTexts() {
-        viewModel.start(listener)
-
-        verify(listener).setErrorEmailRequiredVisible(false)
-        verify(listener).setErrorPasswordRequiredVisible(false)
-    }
-
-    @Test
-    fun testInitialState_loggedIn() {
+    fun testInitialState_signedIn() {
         whenever(authenticationService.isSignedIn()).thenReturn(true)
-
-        viewModel.start(listener)
-
-        verify(listener).showAlreadySignedIn()
-        verify(listener).navigateToNextScreen()
-        verifyNoMoreInteractions(listener)
+        viewModel = SignInViewModel(authenticationService, InstantSchedulerManager())
+        val observer = mock<Observer<Boolean>>()
+        viewModel.hasSignedIn.observeForever(observer)
+        verify(observer).onChanged(true)
     }
 
     @Test
     fun testTypeEmailEmpty_showEmailRequiredButtonDisabled() {
-        viewModel.start(listener)
-        clearInvocations(listener)
-
         viewModel.emailText = ""
 
-        verify(listener).setErrorEmailRequiredVisible(true)
-        verify(listener).setButtonEnabled(false)
+        assertEquals(true, viewModel.isErrorEmailRequiredVisible.value)
+        assertEquals(false, viewModel.isButtonEnabled.value)
     }
 
     @Test
     fun testTypePasswordEmpty_showPasswordRequiredButtonDisabled() {
-        viewModel.start(listener)
-        clearInvocations(listener)
-
         viewModel.passwordText = ""
 
-        verify(listener).setErrorPasswordRequiredVisible(true)
-        verify(listener).setButtonEnabled(false)
+        assertEquals(true, viewModel.isErrorPasswordRequiredVisible.value)
+        assertEquals(false, viewModel.isButtonEnabled.value)
     }
 
     @Test
     fun testTypeEmailPasswordNotEmpty_hideErrorButtonEnabled() {
-        viewModel.start(listener)
-        clearInvocations(listener)
-
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
 
-        verifyLastValueBoolean(SignInViewModel.Listener::setErrorEmailRequiredVisible, false)
-        verifyLastValueBoolean(SignInViewModel.Listener::setErrorPasswordRequiredVisible, false)
-        verifyLastValueBoolean(SignInViewModel.Listener::setButtonEnabled, true)
+        assertEquals(false, viewModel.isErrorEmailRequiredVisible.value)
+        assertEquals(false, viewModel.isErrorPasswordRequiredVisible.value)
+        assertEquals(true, viewModel.isButtonEnabled.value)
     }
 
     @Test
     fun testSignIn_success_showHideProgress() {
         whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.complete())
+        val observer = mock<Observer<Boolean>>()
+        viewModel.isSigningIn.observeForever(observer)
 
-        viewModel.start(listener)
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        clearInvocations(listener)
-
         viewModel.signIn()
 
-        inOrder(listener).let {
-            it.verify(listener).setProgressVisible(true)
-            it.verify(listener).setProgressVisible(false)
+        inOrder(observer).let {
+            it.verify(observer).onChanged(false)
+            it.verify(observer).onChanged(true)
+            it.verify(observer).onChanged(false)
         }
     }
 
@@ -139,10 +120,8 @@ class SignInViewModelTest {
         whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.never())
 
-        viewModel.start(listener)
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        clearInvocations(listener)
 
         viewModel.signIn()
         viewModel.signIn()
@@ -154,33 +133,34 @@ class SignInViewModelTest {
     fun testSignIn_success_showMessageAndNavigateAway() {
         whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.complete())
+        val observer = mock<Observer<Boolean>>()
+        viewModel.hasSignedIn.observeForever(observer)
 
-        viewModel.start(listener)
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        clearInvocations(listener)
-
         viewModel.signIn()
 
-        verify(listener).showSuccessMessage()
-        verify(listener).navigateToNextScreen()
+        inOrder(observer).let {
+            verify(observer).onChanged(false)
+            verify(observer).onChanged(true)
+        }
     }
 
     @Test
     fun testSignIn_error_showHideProgress() {
         whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.error(IllegalStateException("ERROR")))
+        val observer = mock<Observer<Boolean>>()
+        viewModel.isSigningIn.observeForever(observer)
 
-        viewModel.start(listener)
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        clearInvocations(listener)
-
         viewModel.signIn()
 
-        inOrder(listener).let {
-            it.verify(listener).setProgressVisible(true)
-            it.verify(listener).setProgressVisible(false)
+        inOrder(observer).let {
+            it.verify(observer).onChanged(false)
+            it.verify(observer).onChanged(true)
+            it.verify(observer).onChanged(false)
         }
     }
 
@@ -189,23 +169,15 @@ class SignInViewModelTest {
         val error = "ERROR"
         whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
             .thenReturn(Completable.error(IllegalStateException(error)))
+        val observer = mock<Observer<Event<String>>>()
+        viewModel.errorMessage.observeForever(observer)
 
-        viewModel.start(listener)
         viewModel.emailText = VALID_EMAIL
         viewModel.passwordText = VALID_PASSWORD
-        clearInvocations(listener)
-
         viewModel.signIn()
 
-        verify(listener).showErrorMessage(error)
-    }
-
-    private fun verifyLastValueBoolean(
-        function: SignInViewModel.Listener.(Boolean) -> Unit,
-        value: Boolean
-    ) {
-        val booleanCaptor = argumentCaptor<Boolean>()
-        verify(listener, atLeastOnce()).function(booleanCaptor.capture())
-        assertEquals(value, booleanCaptor.lastValue)
+        val argumentCaptor = argumentCaptor<Event<String>>()
+        verify(observer).onChanged(argumentCaptor.capture())
+        assertEquals(error, argumentCaptor.lastValue.peekContent())
     }
 }
