@@ -132,6 +132,7 @@
                         android:layout_gravity="center"
                         android:enabled="@{viewModel.isButtonEnabled() ?? false}"
                         android:indeterminate="true"
+                        android:theme="?my_progressBarTheme"
                         android:visibility="@{safeUnbox(viewModel.isSigningUp()) ? View.VISIBLE : View.GONE}"
                         tools:visibility="visible"
                         />
