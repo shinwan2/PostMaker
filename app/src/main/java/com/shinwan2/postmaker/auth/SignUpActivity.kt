@@ -1,9 +1,11 @@
 package com.shinwan2.postmaker.auth
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -18,15 +20,12 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.shinwan2.postmaker.R
+import com.shinwan2.postmaker.databinding.ActivitySignUpBinding
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
-import kotlinx.android.synthetic.main.activity_sign_up.emailTil
 import kotlinx.android.synthetic.main.activity_sign_up.passwordEditText
-import kotlinx.android.synthetic.main.activity_sign_up.passwordTil
-import kotlinx.android.synthetic.main.activity_sign_up.progressBar
 import kotlinx.android.synthetic.main.activity_sign_up.signInButton
 import kotlinx.android.synthetic.main.activity_sign_up.signUpButton
-import kotlinx.android.synthetic.main.activity_sign_up.signUpButtonText
 import kotlinx.android.synthetic.main.activity_sign_up.topToolbar
 import javax.inject.Inject
 
@@ -34,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private lateinit var activitySignUpBinding: ActivitySignUpBinding
     private lateinit var viewModel: SignUpViewModel
 
     private val emailTextWatcher = object : TextWatcher {
@@ -54,31 +54,50 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel::class.java)
+        activitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        activitySignUpBinding.viewModel = viewModel
+        activitySignUpBinding.setLifecycleOwner(this)
 
         setSupportActionBar(topToolbar)
         supportActionBar!!.title = getString(R.string.signup_title)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel::class.java)
-
-        emailEditText.isSaveEnabled = false
-        passwordEditText.isSaveEnabled = false
         signInButton.createSignInButtonText()
         signUpButton.setOnClickListener { viewModel.signUp() }
 
-        viewModel.start(Listener())
-
+        emailEditText.isSaveEnabled = false
+        emailEditText.setText(viewModel.emailText)
         emailEditText.addTextChangedListener(emailTextWatcher)
+
+        passwordEditText.isSaveEnabled = false
+        passwordEditText.setText(viewModel.passwordText)
         passwordEditText.addTextChangedListener(passwordTextWatcher)
+
+        viewModel.hasSignedIn.observe(this, Observer {
+            if (it == true) {
+                Toast.makeText(
+                    this@SignUpActivity,
+                    R.string.signin_message_success,
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            val content = it?.getContentIfNotHandled()
+            if (content != null) {
+                Toast.makeText(this@SignUpActivity, content, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onBackPressed() {
-        if (viewModel.isSigningUp) return
+        if (viewModel.isSigningUp.value == true) return
         super.onBackPressed()
     }
 
     override fun onDestroy() {
-        viewModel.stop()
         signUpButton.setOnClickListener(null)
         signInButton.setOnClickListener(null)
         emailEditText.removeTextChangedListener(emailTextWatcher)
@@ -116,71 +135,6 @@ class SignUpActivity : AppCompatActivity() {
         text = spannable
         movementMethod = LinkMovementMethod.getInstance()
         highlightColor = ContextCompat.getColor(this@SignUpActivity, R.color.button_ripple)
-    }
-
-    private inner class Listener : SignUpViewModel.Listener {
-        override fun setEmailText(emailText: String) {
-            emailEditText.setText(emailText)
-        }
-
-        override fun setPasswordText(passwordText: String) {
-            passwordEditText.setText(passwordText)
-        }
-
-        override fun setProgressVisible(visible: Boolean) {
-            if (visible) {
-                progressBar.visibility = View.VISIBLE
-                signUpButtonText.visibility = View.GONE
-            } else {
-                progressBar.visibility = View.GONE
-                signUpButtonText.visibility = View.VISIBLE
-            }
-        }
-
-        override fun setErrorEmailRequiredVisible(visible: Boolean) {
-            emailTil.error = if (visible) {
-                getString(R.string.signup_email_required_error)
-            } else {
-                null
-            }
-        }
-
-        override fun setErrorPasswordRequiredVisible(visible: Boolean) {
-            passwordTil.error = if (visible) {
-                getString(R.string.signup_password_required_error)
-            } else {
-                null
-            }
-        }
-
-        override fun showErrorMessage(error: String?) {
-            Toast.makeText(this@SignUpActivity, error, Toast.LENGTH_SHORT).show()
-        }
-
-        override fun setButtonEnabled(enabled: Boolean) {
-            signUpButton.isEnabled = enabled
-            signUpButtonText.isEnabled = enabled
-        }
-
-        override fun showSuccessMessage() {
-            Toast.makeText(
-                this@SignUpActivity,
-                R.string.signup_message_success,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        override fun showAlreadySignedIn() {
-            Toast.makeText(
-                this@SignUpActivity,
-                R.string.signup_message_alreadysignedin,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        override fun navigateToNextScreen() {
-            finish()
-        }
     }
 
     companion object {
