@@ -21,6 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignInBinding
+import com.shinwan2.postmaker.home.HomeActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import kotlinx.android.synthetic.main.activity_sign_in.passwordEditText
@@ -74,14 +75,7 @@ class SignInActivity : AppCompatActivity() {
         passwordEditText.addTextChangedListener(passwordTextWatcher)
 
         viewModel.hasSignedIn.observe(this, Observer {
-            if (it == true) {
-                Toast.makeText(
-                    this@SignInActivity,
-                    R.string.signin_message_success,
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
+            if (it == true) onSignedIn()
         })
 
         viewModel.errorMessage.observe(this, Observer {
@@ -105,8 +99,27 @@ class SignInActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun onSignUpButtonClicked() {
+        navigateToSignUp()
+        finish()
+    }
+
     private fun navigateToSignUp() {
         startActivity(SignUpActivity.intent(this))
+    }
+
+    private fun onSignedIn() {
+        Toast.makeText(
+            this@SignInActivity,
+            R.string.signin_message_success,
+            Toast.LENGTH_SHORT
+        ).show()
+        navigateToHomeActivity()
+        finish()
+    }
+
+    private fun navigateToHomeActivity() {
+        startActivity(HomeActivity.intent(this))
     }
 
     private fun TextView.createSignUpButtonText() {
@@ -116,7 +129,7 @@ class SignInActivity : AppCompatActivity() {
         ))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                navigateToSignUp()
+                onSignUpButtonClicked()
             }
 
             override fun updateDrawState(ds: TextPaint) {
