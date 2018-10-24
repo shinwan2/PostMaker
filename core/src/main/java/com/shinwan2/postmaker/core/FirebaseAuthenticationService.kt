@@ -10,6 +10,10 @@ import java.util.concurrent.ExecutionException
 class FirebaseAuthenticationService(
     private val firebaseAuth: FirebaseAuth
 ) : AuthenticationService {
+
+    override val userId: String?
+        get() = firebaseAuth.uid
+
     override fun signIn(email: String, password: String): Completable {
         return Completable.create { emitter ->
             try {
