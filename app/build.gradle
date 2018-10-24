@@ -35,6 +35,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
 
     kapt "com.google.dagger:dagger-compiler:${dagger2_version}"
     implementation "com.google.dagger:dagger:${dagger2_version}"
