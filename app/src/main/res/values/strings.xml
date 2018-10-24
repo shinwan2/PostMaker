@@ -31,4 +31,5 @@
     <string name="home_drawer_menuitem_signout">Sign Out</string>
     <string name="home_drawer_contentdescription_open">Open drawer</string>
     <string name="home_drawer_contentdescription_close">Close drawer</string>
+    <string name="home_drawer_fragment_tag" translatable="false">HOME_DRAWER_FRAGMENT_TAG</string>
 </resources>
