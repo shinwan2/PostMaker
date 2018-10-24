@@ -29,4 +29,6 @@
 
     <string name="home_drawer_menuitem_profile">Profile</string>
     <string name="home_drawer_menuitem_signout">Sign Out</string>
+    <string name="home_drawer_contentdescription_open">Open drawer</string>
+    <string name="home_drawer_contentdescription_close">Close drawer</string>
 </resources>
