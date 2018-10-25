@@ -42,6 +42,12 @@ class SignInViewModel(
         validateForm()
     }
 
+    override fun onCleared() {
+        disposable?.dispose()
+        disposable = null
+        super.onCleared()
+    }
+
     fun signIn() {
         if (isSigningIn.value == true) return
 
