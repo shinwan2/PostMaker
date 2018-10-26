@@ -8,6 +8,6 @@ import io.reactivex.Single
 
 interface PostService {
     fun createPost(createPostRequest: CreatePostRequest): Completable
-    fun getTimelinePosts(): Single<CursorList<Post>>
+    fun getTimelinePosts(cursor: String? = null, limit: Int): Single<CursorList<Post>>
     fun deletePost(postId: String): Completable
 }

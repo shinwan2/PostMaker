@@ -7,5 +7,5 @@ data class User(
     var aboutMe: String,
     var joinTimestamp: Long,
     var photoUrl: String,
-    var posts: CursorList<Post>?
+    var posts: CursorList<Post>? = null
 )
