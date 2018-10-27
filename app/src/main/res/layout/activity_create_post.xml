@@ -34,6 +34,7 @@
                     android:layout_gravity="end"
                     android:indeterminate="true"
                     android:theme="?my_progressBarTheme"
+                    app:isVisible="@{viewModel.isSubmitting()}"
                     />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
