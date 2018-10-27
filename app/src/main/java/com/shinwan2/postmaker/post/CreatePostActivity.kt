@@ -1,25 +1,66 @@
 package com.shinwan2.postmaker.post
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.shinwan2.postmaker.R
+import com.shinwan2.postmaker.databinding.ActivityCreatePostBinding
 import com.shinwan2.postmaker.util.tintWithColorStateList
+import dagger.android.AndroidInjection
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_create_post.postContentTextView
 import kotlinx.android.synthetic.main.activity_home.topToolbar
+import javax.inject.Inject
+
+private const val BUNDLE_CONTENT = "BUNDLE_CONTENT"
 
 class CreatePostActivity : AppCompatActivity() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var binding: ActivityCreatePostBinding
+    private lateinit var viewModel: CreatePostViewModel
+    private lateinit var compositeDisposable: CompositeDisposable
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
+
+        compositeDisposable = CompositeDisposable()
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(CreatePostViewModel::class.java)
+        if (savedInstanceState != null) {
+            viewModel.content = savedInstanceState.getString(BUNDLE_CONTENT)
+        }
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_post)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
 
         setSupportActionBar(topToolbar)
         supportActionBar!!.apply {
+            setTitle(R.string.post_create_title)
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
         }
+
+        postContentTextView.isSaveEnabled = false
+        postContentTextView.setText(viewModel.content)
+        compositeDisposable.add(
+            postContentTextView.afterTextChangeEvents()
+                .skipInitialValue()
+                .subscribe { viewModel.content = it.editable.toString() }
+        )
+
+        observeViewModel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -32,7 +73,8 @@ class CreatePostActivity : AppCompatActivity() {
         for (menuId in menuIds) {
             menu.findItem(menuId).also {
                 it.tintWithColorStateList(this, R.color.selector_menu_item_tint_dark_background)
-                it.isEnabled = true // TODO: bind to ViewModel value
+                it.isEnabled = viewModel.isButtonSubmitEnabled.value == true
+                it.isVisible = !(viewModel.isSubmitting.value ?: false)
             }
         }
         return super.onPrepareOptionsMenu(menu)
@@ -41,7 +83,7 @@ class CreatePostActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menuSubmitPost -> {
-                submitPost()
+                viewModel.submitPost()
                 return true
             }
             android.R.id.home -> {
@@ -52,8 +94,28 @@ class CreatePostActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun submitPost() {
+    override fun onBackPressed() {
+        if (viewModel.isSubmitting.value == true) return
+        super.onBackPressed()
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(BUNDLE_CONTENT, viewModel.content)
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        super.onDestroy()
+    }
+
+    private fun observeViewModel() {
+        viewModel.isSubmitting.observe(this, Observer<Boolean> {
+            invalidateOptionsMenu()
+        })
+        viewModel.isButtonSubmitEnabled.observe(this, Observer<Boolean> {
+            invalidateOptionsMenu()
+        })
     }
 
     companion object {

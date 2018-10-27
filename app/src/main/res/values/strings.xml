@@ -34,5 +34,7 @@
     <string name="home_drawer_fragment_tag" translatable="false">HOME_DRAWER_FRAGMENT_TAG</string>
 
     <string name="post_create_menuitem_submit">Submit</string>
+    <string name="post_create_title">Create Post</string>
     <string name="post_create_hint_textcontent">Create a beautiful story here</string>
+    <string name="post_create_required_error">Content cannot be empty</string>
 </resources>

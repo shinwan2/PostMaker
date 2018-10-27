@@ -7,11 +7,17 @@ import com.shinwan2.postmaker.auth.SignUpActivity
 import com.shinwan2.postmaker.auth.SignUpActivityModule
 import com.shinwan2.postmaker.home.HomeActivity
 import com.shinwan2.postmaker.home.HomeActivityModule
+import com.shinwan2.postmaker.post.CreatePostActivity
+import com.shinwan2.postmaker.post.CreatePostActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityModule {
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [CreatePostActivityModule::class])
+    abstract fun provideCreatePostActivityInjector(): CreatePostActivity
+
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeActivityModule::class])
     abstract fun provideHomeActivityInjector(): HomeActivity
