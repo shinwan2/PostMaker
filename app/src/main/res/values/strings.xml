@@ -32,4 +32,6 @@
     <string name="home_drawer_contentdescription_open">Open drawer</string>
     <string name="home_drawer_contentdescription_close">Close drawer</string>
     <string name="home_drawer_fragment_tag" translatable="false">HOME_DRAWER_FRAGMENT_TAG</string>
+
+    <string name="post_create_hint_textcontent">Create a beautiful story here</string>
 </resources>

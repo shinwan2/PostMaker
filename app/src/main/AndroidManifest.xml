@@ -46,5 +46,9 @@
             android:name=".home.HomeActivity"
             android:launchMode="singleTop"
             />
+        <activity
+            android:name=".home.CreatePostActivity"
+            android:launchMode="singleTask"
+            />
     </application>
 </manifest>
