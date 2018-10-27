@@ -9,10 +9,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.shinwan2.postmaker.R
+import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_home.drawerLayout
+import kotlinx.android.synthetic.main.activity_home.fab
 import kotlinx.android.synthetic.main.activity_home.topToolbar
 import javax.inject.Inject
 
@@ -21,11 +24,13 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var compositeDisposable: CompositeDisposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        compositeDisposable = CompositeDisposable()
 
         setSupportActionBar(topToolbar)
         supportActionBar!!.apply {
@@ -39,6 +44,10 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
             R.string.home_drawer_contentdescription_close
         )
         drawerLayout.addDrawerListener(drawerToggle)
+
+        compositeDisposable.add(
+            fab.debounceClicks().subscribe { navigateToCreatePost() }
+        )
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -64,7 +73,16 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        super.onDestroy()
+    }
+
     override fun supportFragmentInjector() = dispatchingAndroidInjector
+
+    private fun navigateToCreatePost() {
+        startActivity(CreatePostActivity.createPostIntent(this))
+    }
 
     companion object {
         fun intent(context: Context) = Intent(context, HomeActivity::class.java)
