@@ -9,19 +9,20 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
-import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignUpBinding
+import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
 import kotlinx.android.synthetic.main.activity_sign_up.passwordEditText
 import kotlinx.android.synthetic.main.activity_sign_up.signInButton
@@ -35,25 +36,12 @@ class SignUpActivity : AppCompatActivity() {
 
     private lateinit var activitySignUpBinding: ActivitySignUpBinding
     private lateinit var viewModel: SignUpViewModel
-
-    private val emailTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(s: Editable?) {
-            viewModel.emailText = s.toString()
-        }
-    }
-    private val passwordTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(s: Editable?) {
-            viewModel.passwordText = s.toString()
-        }
-    }
+    private lateinit var compositeDisposable: CompositeDisposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        compositeDisposable = CompositeDisposable()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel::class.java)
         activitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
         activitySignUpBinding.viewModel = viewModel
@@ -63,15 +51,25 @@ class SignUpActivity : AppCompatActivity() {
         supportActionBar!!.title = getString(R.string.signup_title)
 
         signInButton.createSignInButtonText()
-        signUpButton.setOnClickListener { viewModel.signUp() }
+        compositeDisposable.add(
+            signUpButton.debounceClicks().subscribe { viewModel.signUp() }
+        )
 
         emailEditText.isSaveEnabled = false
         emailEditText.setText(viewModel.emailText)
-        emailEditText.addTextChangedListener(emailTextWatcher)
+        compositeDisposable.add(
+            emailEditText.afterTextChangeEvents()
+                .skipInitialValue()
+                .subscribe { viewModel.emailText = it.editable.toString() }
+        )
 
         passwordEditText.isSaveEnabled = false
         passwordEditText.setText(viewModel.passwordText)
-        passwordEditText.addTextChangedListener(passwordTextWatcher)
+        compositeDisposable.add(
+            passwordEditText.afterTextChangeEvents()
+                .skipInitialValue()
+                .subscribe { viewModel.passwordText = it.editable.toString() }
+        )
 
         viewModel.hasSignedIn.observe(this, Observer {
             if (it == true) {
@@ -98,10 +96,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        signUpButton.setOnClickListener(null)
-        signInButton.setOnClickListener(null)
-        emailEditText.removeTextChangedListener(emailTextWatcher)
-        passwordEditText.removeTextChangedListener(passwordTextWatcher)
+        compositeDisposable.clear()
         super.onDestroy()
     }
 
