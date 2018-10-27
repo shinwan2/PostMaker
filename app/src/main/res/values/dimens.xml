@@ -25,4 +25,7 @@
 
     <dimen name="auth_appname_width">240dp</dimen>
     <dimen name="auth_appname_height">120dp</dimen>
+
+    <dimen name="home_drawer_width">320dp</dimen>
+    <dimen name="home_drawer_menuitem_icon_size">24dp</dimen>
 </resources>

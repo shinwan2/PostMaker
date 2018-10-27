@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:background="@color/primaryLightColor"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            />
+
+        <TextView
+            android:id="@+id/displayNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_2"
+            android:gravity="center_horizontal"
+            android:text="My header title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|start"
+        android:padding="@dimen/spacing_2"
+        tools:ignore="UseCompoundDrawables"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/home_drawer_menuitem_icon_size"
+            android:layout_height="@dimen/home_drawer_menuitem_icon_size"
+            android:layout_marginEnd="@dimen/spacing_3"
+            android:src="@drawable/ic_person"
+            android:tint="?colorPrimary"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_drawer_menuitem_profile"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|start"
+        android:padding="@dimen/spacing_2"
+        tools:ignore="UseCompoundDrawables"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/home_drawer_menuitem_icon_size"
+            android:layout_height="@dimen/home_drawer_menuitem_icon_size"
+            android:layout_marginEnd="@dimen/spacing_3"
+            android:src="@drawable/ic_signout"
+            android:tint="?colorPrimary"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_drawer_menuitem_signout"
+            />
+    </LinearLayout>
+</LinearLayout>

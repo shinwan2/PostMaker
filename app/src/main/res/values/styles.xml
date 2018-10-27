@@ -16,6 +16,7 @@
         <item name="my_textColorLink">@color/text_link</item>
 
         <item name="my_editTextTheme">@style/MyEditTextTheme</item>
+        <item name="my_progressBarTheme">@style/MyProgressBarTheme</item>
         <item name="my_topActionBarTheme">@style/ActionBarTheme</item>
     </style>
 
@@ -42,5 +43,8 @@
     <style name="MyEditTextTheme" parent="AppTheme">
         <item name="colorAccent">@color/primaryColor</item>
         <item name="android:textColorHighlight">@color/primaryColor</item>
+    </style>
+    <style name="MyProgressBarTheme" parent="AppTheme">
+        <item name="colorAccent">@color/secondaryLightColor</item>
     </style>
 </resources>
