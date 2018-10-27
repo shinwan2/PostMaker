@@ -60,6 +60,7 @@
                 app:counterMaxLength="@{viewModel.getContentMaxLength()}"
                 app:errorEnabled="true"
                 app:errorText="@{viewModel.isContentErrorRequired() ? @string/post_create_required_error : null }"
+                app:isRecursiveEnabled="@{!(viewModel.isSubmitting() ?? false)}"
                 >
 
                 <android.support.design.widget.TextInputEditText
