@@ -42,8 +42,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:${dagger2_version}"
     kapt "com.google.dagger:dagger-android-processor:${dagger2_version}"
 
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
     implementation "io.reactivex.rxjava2:rxjava:$rxJava_version"
-
+    
     testImplementation 'junit:junit:4.12'
     testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
     testImplementation "org.mockito:mockito-core:2.15.0"
