@@ -1,5 +1,6 @@
 package com.shinwan2.postmaker.core.di
 
+import com.shinwan2.postmaker.core.annotation.CoreScope
 import com.shinwan2.postmaker.domain.PostService
 import com.shinwan2.postmaker.domain.SchedulerManager
 import com.shinwan2.postmaker.domain.UserService
@@ -12,6 +13,7 @@ import dagger.Component
         SchedulerModule::class
     ]
 )
+@CoreScope
 interface CoreComponent {
     fun authenticationService(): AuthenticationService
     fun userService(): UserService
