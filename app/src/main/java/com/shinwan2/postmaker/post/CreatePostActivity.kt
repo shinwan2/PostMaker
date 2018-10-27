@@ -10,9 +10,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivityCreatePostBinding
+import com.shinwan2.postmaker.util.Event
 import com.shinwan2.postmaker.util.tintWithColorStateList
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +31,18 @@ class CreatePostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreatePostBinding
     private lateinit var viewModel: CreatePostViewModel
     private lateinit var compositeDisposable: CompositeDisposable
+
+    private val finishObserver = Observer<Event<Any?>> {
+        if (it == null) return@Observer
+        showToast(getString(R.string.post_create_message_success))
+        finish()
+    }
+
+    private val errorMessageObserver = Observer<Event<String>> {
+        if (it == null) return@Observer
+        val errorMessage = it.getContentIfNotHandled()
+        if (errorMessage != null) showToast(errorMessage)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -106,6 +120,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         compositeDisposable.clear()
+        unobserveViewModel()
         super.onDestroy()
     }
 
@@ -116,6 +131,18 @@ class CreatePostActivity : AppCompatActivity() {
         viewModel.isButtonSubmitEnabled.observe(this, Observer<Boolean> {
             invalidateOptionsMenu()
         })
+
+        viewModel.finish.observeForever(finishObserver)
+        viewModel.errorMessage.observeForever(errorMessageObserver)
+    }
+
+    private fun unobserveViewModel() {
+        viewModel.finish.removeObserver(finishObserver)
+        viewModel.errorMessage.removeObserver(errorMessageObserver)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@CreatePostActivity, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

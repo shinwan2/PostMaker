@@ -37,4 +37,5 @@
     <string name="post_create_title">Create Post</string>
     <string name="post_create_hint_textcontent">Create a beautiful story here</string>
     <string name="post_create_required_error">Content cannot be empty</string>
+    <string name="post_create_message_success">Post submitted!</string>
 </resources>

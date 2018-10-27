@@ -6,6 +6,7 @@ import com.shinwan2.postmaker.domain.PostService
 import com.shinwan2.postmaker.domain.SchedulerManager
 import com.shinwan2.postmaker.domain.model.CreatePostRequest
 import com.shinwan2.postmaker.domain.model.Post
+import com.shinwan2.postmaker.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 
@@ -25,6 +26,9 @@ class CreatePostViewModel(
 
     val isButtonSubmitEnabled = MutableLiveData<Boolean>().also { it.value = isPostAllowed() }
     val isSubmitting = MutableLiveData<Boolean>()
+
+    val finish = MutableLiveData<Event<Any?>>()
+    val errorMessage = MutableLiveData<Event<String>>()
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -49,11 +53,13 @@ class CreatePostViewModel(
                 override fun onComplete() {
                     isButtonSubmitEnabled.value = true
                     isSubmitting.value = false
+                    finish.value = Event(null)
                 }
 
                 override fun onError(e: Throwable) {
                     isButtonSubmitEnabled.value = true
                     isSubmitting.value = false
+                    errorMessage.value = Event(e.message!!)
                 }
             })
         compositeDisposable.add(disposable)
