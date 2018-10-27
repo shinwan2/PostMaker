@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.shinwan2.postmaker.R
+import com.shinwan2.postmaker.post.CreatePostActivity
 import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector

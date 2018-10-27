@@ -1,4 +1,4 @@
-package com.shinwan2.postmaker.home
+package com.shinwan2.postmaker.post
 
 import android.content.Context
 import android.content.Intent
