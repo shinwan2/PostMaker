@@ -25,7 +25,7 @@ class CreatePostViewModel(
     val isContentErrorRequiredVisible = MutableLiveData<Boolean>().also { it.value = false }
 
     val isButtonSubmitEnabled = MutableLiveData<Boolean>().also { it.value = isPostAllowed() }
-    val isSubmitting = MutableLiveData<Boolean>()
+    val isSubmitting = MutableLiveData<Boolean>().also { it.value = false }
 
     val finish = MutableLiveData<Event<Any?>>()
     val errorMessage = MutableLiveData<Event<String>>()
@@ -38,6 +38,7 @@ class CreatePostViewModel(
     }
 
     fun submitPost() {
+        if (isButtonSubmitEnabled.value != true) return
         if (isSubmitting.value == true) return
 
         val disposable = postService.createPost(CreatePostRequest(content))
@@ -51,7 +52,7 @@ class CreatePostViewModel(
                 }
 
                 override fun onComplete() {
-                    isButtonSubmitEnabled.value = true
+                    isButtonSubmitEnabled.value = false
                     isSubmitting.value = false
                     finish.value = Event(null)
                 }
