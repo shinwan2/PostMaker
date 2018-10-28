@@ -91,6 +91,7 @@
                 android:layout_width="@dimen/post_item_deleteicon_size"
                 android:layout_height="@dimen/post_item_deleteicon_size"
                 android:indeterminate="true"
+                android:theme="?my_progressBarTheme"
                 app:isVisible="@{viewModel.isDeleting}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
