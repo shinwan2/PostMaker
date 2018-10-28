@@ -3,6 +3,7 @@ package com.shinwan2.postmaker.core.firebase.service
 import com.shinwan2.postmaker.core.firebase.repository.FirebaseAuthenticationRepository
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import io.reactivex.Completable
+import io.reactivex.Observable
 import timber.log.Timber
 
 class FirebaseAuthenticationService internal constructor(
@@ -29,5 +30,9 @@ class FirebaseAuthenticationService internal constructor(
 
     override fun isSignedIn(userId: String?): Boolean {
         return authenticationRepository.isSignedIn(userId)
+    }
+
+    override fun authStateChanged(): Observable<Boolean> {
+        return authenticationRepository.authStateChanged()
     }
 }

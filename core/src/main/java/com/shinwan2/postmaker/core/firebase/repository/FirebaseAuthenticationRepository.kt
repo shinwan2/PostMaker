@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.shinwan2.postmaker.domain.auth.AuthenticationException
 import io.reactivex.Completable
+import io.reactivex.Observable
 import java.util.concurrent.ExecutionException
 
 internal class FirebaseAuthenticationRepository(private val firebaseAuth: FirebaseAuth) {
@@ -51,5 +52,18 @@ internal class FirebaseAuthenticationRepository(private val firebaseAuth: Fireba
     fun isSignedIn(userId: String?): Boolean {
         if (userId == null) return firebaseAuth.currentUser != null
         return firebaseAuth.currentUser?.uid == userId
+    }
+
+    fun authStateChanged(): Observable<Boolean> {
+        return Observable.create<Boolean> { emitter ->
+            val authStateListener = FirebaseAuth.AuthStateListener {
+                if (emitter.isDisposed) return@AuthStateListener
+                emitter.onNext(it.currentUser != null)
+            }
+            firebaseAuth.addAuthStateListener(authStateListener)
+            emitter.setCancellable {
+                firebaseAuth.removeAuthStateListener(authStateListener)
+            }
+        }
     }
 }
