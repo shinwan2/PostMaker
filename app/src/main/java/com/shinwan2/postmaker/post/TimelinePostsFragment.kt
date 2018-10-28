@@ -6,16 +6,17 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.FragmentTimelinePostsBinding
 import com.shinwan2.postmaker.domain.model.CursorList
-import com.shinwan2.postmaker.domain.model.Post
 import com.shinwan2.postmaker.util.Event
 import com.shinwan2.postmaker.widget.ListBoundaryCallback
 import com.shinwan2.postmaker.widget.LoadMoreAdapter
@@ -33,6 +34,12 @@ class TimelinePostsFragment : Fragment() {
     private lateinit var viewModel: TimelinePostsViewModel
 
     private val errorMessageObserver = Observer<Event<String>> {
+        if (it == null) return@Observer
+        val errorMessage = it.getContentIfNotHandled()
+        if (errorMessage != null) showToast(errorMessage)
+    }
+
+    private val successMessageObserver = Observer<Event<Int>> {
         if (it == null) return@Observer
         val errorMessage = it.getContentIfNotHandled()
         if (errorMessage != null) showToast(errorMessage)
@@ -63,6 +70,21 @@ class TimelinePostsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
         initializeRecyclerView()
+        observeConfirmationDialog()
+    }
+
+    private fun observeConfirmationDialog() {
+        viewModel.isShowingDeleteConfirmationDialog.observe(this, Observer<Boolean> {
+            if (it == null || it == false) return@Observer
+            MaterialDialog.Builder(requireContext())
+                .title(R.string.post_delete_dialog_title)
+                .content(R.string.post_delete_dialog_message)
+                .positiveText(R.string.all_button_ok)
+                .onPositive { _, _ -> viewModel.confirmDeletePost() }
+                .negativeText(R.string.all_button_cancel)
+                .onNegative { _, _ -> viewModel.cancelDeletePost() }
+                .show()
+        })
     }
 
     override fun onDestroyView() {
@@ -107,7 +129,7 @@ class TimelinePostsFragment : Fragment() {
                 })
         )
 
-        viewModel.items.observe(this, Observer<CursorList<Post>> {
+        viewModel.items.observe(this, Observer<CursorList<PostViewModel>> {
             if (it != null) diffAdapter.submitList(it.list)
         })
         viewModel.isLoadingMore.observe(this, Observer<Boolean> {
@@ -116,15 +138,21 @@ class TimelinePostsFragment : Fragment() {
     }
 
     private fun observeViewModelForever() {
+        viewModel.successMessage.observeForever(successMessageObserver)
         viewModel.errorMessage.observeForever(errorMessageObserver)
     }
 
     private fun unobserveViewModelForever() {
+        viewModel.successMessage.observeForever(successMessageObserver)
         viewModel.errorMessage.removeObserver(errorMessageObserver)
     }
 
     private fun deinitializeRecyclerView() {
         recyclerView.clearOnScrollListeners()
+    }
+
+    private fun showToast(@StringRes stringId: Int) {
+        Toast.makeText(requireContext(), stringId, Toast.LENGTH_SHORT).show()
     }
 
     private fun showToast(message: String) {

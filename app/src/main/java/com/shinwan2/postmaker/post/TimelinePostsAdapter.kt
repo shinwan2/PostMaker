@@ -13,7 +13,8 @@ import com.shinwan2.postmaker.domain.model.Post
 
 private val COLOR_GENERATOR = ColorGenerator.MATERIAL
 
-internal class TimelinePostsAdapter : ListAdapter<Post, PostViewHolder>(PostDiffUtilCallback()) {
+internal class TimelinePostsAdapter
+    : ListAdapter<PostViewModel, PostViewHolder>(PostDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,14 +26,14 @@ internal class TimelinePostsAdapter : ListAdapter<Post, PostViewHolder>(PostDiff
         holder.bind(getItem(position))
     }
 
-    private class PostDiffUtilCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+    private class PostDiffUtilCallback : DiffUtil.ItemCallback<PostViewModel>() {
+        override fun areItemsTheSame(oldItem: PostViewModel, newItem: PostViewModel): Boolean {
             return oldItem.postId == newItem.postId
         }
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        override fun areContentsTheSame(oldItem: PostViewModel, newItem: PostViewModel): Boolean {
             return oldItem.textContent == newItem.textContent &&
-                oldItem.createdTimestamp == newItem.createdTimestamp
+                oldItem.createdDateTime == newItem.createdDateTime
         }
     }
 }
@@ -41,7 +42,7 @@ internal class PostViewHolder(
     private val binding: ItemPostBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(post: Post) {
+    fun bind(post: PostViewModel) {
         binding.viewModel = post
 
         val textDrawable = TextDrawable.builder()
@@ -51,8 +52,8 @@ internal class PostViewHolder(
                 .bold()
             .endConfig()
             .buildRound(
-                post.user?.displayName?.first().toString(),
-                COLOR_GENERATOR.getColor(post.user?.email)
+                post.posterDisplayName.first().toString(),
+                COLOR_GENERATOR.getColor(post.posterEmail)
             )
         binding.userPhotoImageView.setImageDrawable(textDrawable)
 

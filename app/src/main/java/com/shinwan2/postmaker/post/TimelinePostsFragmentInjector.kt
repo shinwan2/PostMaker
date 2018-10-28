@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.shinwan2.postmaker.domain.PostService
 import com.shinwan2.postmaker.domain.SchedulerManager
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Provider
@@ -27,9 +28,10 @@ internal class TimelinePostsViewModelModule {
 
     @Provides
     fun provideTimelinePostsViewModel(
+        authenticationService: AuthenticationService,
         postService: PostService,
         schedulerManager: SchedulerManager
     ): TimelinePostsViewModel {
-        return TimelinePostsViewModel(postService, schedulerManager)
+        return TimelinePostsViewModel(authenticationService, postService, schedulerManager)
     }
 }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">PostMaker</string>
     <string name="all_emptystate_contentdescription">Empty</string>
+    <string name="all_button_ok">OK</string>
+    <string name="all_button_cancel">Cancel</string>
 
     <string name="signin_button_signin">Sign in</string>
     <string name="signin_button_signup">Sign up</string>
@@ -39,6 +41,9 @@
     <string name="post_create_message_success">Post submitted!</string>
 
     <string name="post_list_label_empty">No posts yet, come back later.</string>
+    <string name="post_delete_message_success">Post deleted!</string>
+    <string name="post_delete_dialog_title">Delete confirmation</string>
+    <string name="post_delete_dialog_message">Are you sure to delete this post? Deleted post cannot be recovered.</string>
     <string name="post_item_userphoto_contentdesription">User Photo</string>
     <string name="post_item_contentdescription_delete">Delete post</string>
 </resources>

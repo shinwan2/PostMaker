@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.shinwan2.postmaker.domain.model.Post"
+            type="com.shinwan2.postmaker.post.PostViewModel"
             />
     </data>
 
@@ -46,7 +46,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{viewModel.user.displayName}"
+                android:text="@{viewModel.posterDisplayName}"
                 android:textColor="?my_textColorPrimary"
                 android:textSize="@dimen/text_body"
                 app:layout_constraintBottom_toTopOf="@id/userEmailTextView"
@@ -65,7 +65,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@{viewModel.user.email}"
+                android:text="@{viewModel.posterEmail}"
                 android:textColor="?my_textColorSecondary"
                 android:textSize="@dimen/text_caption"
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"
@@ -80,6 +80,18 @@
                 android:layout_height="@dimen/post_item_deleteicon_size"
                 android:contentDescription="@string/post_item_contentdescription_delete"
                 android:src="@drawable/ic_delete"
+                android:onClick="@{() -> viewModel.deletePost()}"
+                app:isVisible="@{viewModel.isDeletable &amp;&amp; !(viewModel.isDeleting ?? false)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="@dimen/post_item_deleteicon_size"
+                android:layout_height="@dimen/post_item_deleteicon_size"
+                android:indeterminate="true"
+                app:isVisible="@{viewModel.isDeleting}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -104,6 +116,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
                 tools:text="Lorem ipsum dolor sit amet"
+                />
+
+            <TextView
+                android:id="@+id/createdDateTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.createdDateTime}"
+                android:textColor="?my_textColorSecondary"
+                android:textSize="@dimen/text_caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postContentTextView"
                 />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
