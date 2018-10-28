@@ -47,4 +47,8 @@
     <style name="MyProgressBarTheme" parent="AppTheme">
         <item name="colorAccent">@color/secondaryLightColor</item>
     </style>
+    <style name="MySwipeRefreshLayoutStyle">
+        <item name="my_swipeRefreshIndicatorBackground">@android:color/white</item>
+        <item name="my_swipeRefreshIndicatorColor">?colorPrimary</item>
+    </style>
 </resources>

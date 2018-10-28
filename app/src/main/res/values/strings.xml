@@ -39,4 +39,6 @@
     <string name="post_create_hint_textcontent">Create a beautiful story here</string>
     <string name="post_create_required_error">Content cannot be empty</string>
     <string name="post_create_message_success">Post submitted!</string>
+
+    <string name="post_list_label_empty">No posts yet, come back later.</string>
 </resources>
