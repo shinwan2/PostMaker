@@ -34,18 +34,19 @@ class SignUpActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var activitySignUpBinding: ActivitySignUpBinding
     private lateinit var viewModel: SignUpViewModel
     private lateinit var compositeDisposable: CompositeDisposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
         compositeDisposable = CompositeDisposable()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel::class.java)
-        activitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
-        activitySignUpBinding.viewModel = viewModel
-        activitySignUpBinding.setLifecycleOwner(this)
+        val binding: ActivitySignUpBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
 
         setSupportActionBar(topToolbar)
         supportActionBar!!.title = getString(R.string.signup_title)

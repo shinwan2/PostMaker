@@ -28,7 +28,6 @@ class CreatePostActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var binding: ActivityCreatePostBinding
     private lateinit var viewModel: CreatePostViewModel
     private lateinit var compositeDisposable: CompositeDisposable
 
@@ -55,7 +54,8 @@ class CreatePostActivity : AppCompatActivity() {
             viewModel.content = savedInstanceState.getString(BUNDLE_CONTENT)
         }
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_post)
+        val binding: ActivityCreatePostBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_create_post)
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
 
