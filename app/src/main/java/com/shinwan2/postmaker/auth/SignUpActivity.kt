@@ -20,6 +20,7 @@ import android.widget.Toast
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignUpBinding
+import com.shinwan2.postmaker.home.HomeActivity
 import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -73,14 +74,7 @@ class SignUpActivity : AppCompatActivity() {
         )
 
         viewModel.hasSignedIn.observe(this, Observer {
-            if (it == true) {
-                Toast.makeText(
-                    this@SignUpActivity,
-                    R.string.signin_message_success,
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
+            if (it == true) onSignedUp()
         })
 
         viewModel.errorMessage.observe(this, Observer {
@@ -101,6 +95,25 @@ class SignUpActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun onSignedUp() {
+        Toast.makeText(
+            this@SignUpActivity,
+            R.string.signup_message_success,
+            Toast.LENGTH_SHORT
+        ).show()
+        navigateToHomeActivity()
+        finish()
+    }
+
+    private fun navigateToHomeActivity() {
+        startActivity(HomeActivity.intent(this))
+    }
+
+    private fun onSignInButtonClicked() {
+        navigateToSignIn()
+        finish()
+    }
+
     private fun navigateToSignIn() {
         startActivity(SignInActivity.intent(this))
     }
@@ -112,7 +125,7 @@ class SignUpActivity : AppCompatActivity() {
         ))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                navigateToSignIn()
+                onSignInButtonClicked()
             }
 
             override fun updateDrawState(ds: TextPaint) {
