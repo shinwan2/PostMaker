@@ -9,7 +9,6 @@
     <string name="signin_email_required_error">Email is required</string>
     <string name="signin_imeaction_short">Sign in</string>
     <string name="signin_label_noaccount_format">Don\'t have an account yet? %s</string>
-    <string name="signin_message_alreadysignedin">Already signed in</string>
     <string name="signin_message_success">You are signed in</string>
     <string name="signin_password_hint">Password</string>
     <string name="signin_password_required_error">Password is required</string>
@@ -22,7 +21,6 @@
     <string name="signup_imeaction_short">Sign up</string>
     <string name="signup_label_createaccount">Create your account</string>
     <string name="signup_label_haveaccount_format">Have an account? %s</string>
-    <string name="signup_message_alreadysignedin">Already signed in</string>
     <string name="signup_message_success">You are signed in</string>
     <string name="signup_password_hint">Password</string>
     <string name="signup_password_required_error">Email is required</string>
