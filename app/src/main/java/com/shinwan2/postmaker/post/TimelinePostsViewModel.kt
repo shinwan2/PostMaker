@@ -37,7 +37,7 @@ class TimelinePostsViewModel(
         }
 
     init {
-        // refresh()
+         refresh()
     }
 
     override fun onCleared() {
