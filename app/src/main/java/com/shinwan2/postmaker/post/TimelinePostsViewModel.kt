@@ -30,7 +30,7 @@ class TimelinePostsViewModel(
     private var loadMoreDisposable: Disposable? = null
     private var compositeDisposable = CompositeDisposable()
 
-    private val hasNext: Boolean
+    val hasNextPage: Boolean
         get() {
             val isNextCursorEmpty = items.value?.nextCursor == ""
             return !isNextCursorEmpty
@@ -73,7 +73,7 @@ class TimelinePostsViewModel(
 
     fun loadMore() {
         if (isRefreshing.value == true || isLoadingMore.value == true) return
-        if (!hasNext) return
+        if (!hasNextPage) return
 
         loadMoreDisposable = postService.getTimelinePosts(items.value?.nextCursor, ITEM_REQUESTED)
             .subscribeOn(schedulerManager.backgroundThreadScheduler)

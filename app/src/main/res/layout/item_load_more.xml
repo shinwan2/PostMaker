@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_2"
+    >
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="@dimen/progressbar_loadmore_size"
+        android:layout_height="@dimen/progressbar_loadmore_size"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:theme="?my_progressBarTheme"
+        />
+</FrameLayout>

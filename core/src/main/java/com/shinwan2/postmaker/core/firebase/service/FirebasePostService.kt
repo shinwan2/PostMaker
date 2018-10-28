@@ -38,6 +38,9 @@ class FirebasePostService internal constructor(
                         .asSequence()
                         .map { userId -> userRepository.getUser(userId) }
                         .toList()
+                    if (getAllUsersForPosts.isEmpty()) {
+                        return@map cursoredPosts
+                    }
                     Single.zip(getAllUsersForPosts) { users -> users.toList() }
                         .map { usersUnsafe ->
                             @Suppress("UNCHECKED_CAST")

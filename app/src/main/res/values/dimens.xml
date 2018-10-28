@@ -31,4 +31,5 @@
 
     <dimen name="emptystate_image_size">120dp</dimen>
     <dimen name="progressbar_intoolbar_size">24dp</dimen>
+    <dimen name="progressbar_loadmore_size">32dp</dimen>
 </resources>

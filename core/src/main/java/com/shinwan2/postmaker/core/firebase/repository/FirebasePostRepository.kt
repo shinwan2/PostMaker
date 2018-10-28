@@ -72,7 +72,7 @@ internal class FirebasePostRepository(
                                 }
                                 .take(limit)
                                 .sortedByDescending { it.createdTimestamp }
-                            val nextCursor = posts.firstOrNull()?.postId.orEmpty()
+                            val nextCursor = posts.getOrNull(limit - 1)?.postId.orEmpty()
                             emitter.onSuccess(CursorList(posts, nextCursor))
                         } catch (e: Exception) {
                             emitter.onError(e)

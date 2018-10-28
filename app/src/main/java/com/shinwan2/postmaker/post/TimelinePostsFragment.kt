@@ -16,6 +16,8 @@ import com.shinwan2.postmaker.databinding.FragmentTimelinePostsBinding
 import com.shinwan2.postmaker.domain.model.CursorList
 import com.shinwan2.postmaker.domain.model.Post
 import com.shinwan2.postmaker.util.Event
+import com.shinwan2.postmaker.widget.ListBoundaryCallback
+import com.shinwan2.postmaker.widget.LoadMoreAdapter
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_timeline_posts.recyclerView
 import kotlinx.android.synthetic.main.fragment_timeline_posts.swipeRefreshLayout
@@ -59,11 +61,10 @@ class TimelinePostsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
         initializeRecyclerView()
-        // on load more
-        // bind load more indicators
     }
 
     override fun onDestroyView() {
+        deinitializeRecyclerView()
         swipeRefreshLayout.setOnRefreshListener(null)
         swipeRefreshLayout.isRefreshing = false
         swipeRefreshLayout.clearAnimation()
@@ -78,10 +79,26 @@ class TimelinePostsFragment : Fragment() {
     private fun initializeRecyclerView() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        val adapter = TimelinePostsAdapter()
+        val diffAdapter = TimelinePostsAdapter()
+        val adapter = LoadMoreAdapter(diffAdapter)
         recyclerView.adapter = adapter
+        recyclerView.addOnScrollListener(
+            ListBoundaryCallback(
+                object : ListBoundaryCallback.Continuable {
+                    override val hasNextPage: Boolean
+                        get() = viewModel.hasNextPage
+                },
+                object : ListBoundaryCallback.LoadMoreListener {
+                    override fun loadMore() {
+                        viewModel.loadMore()
+                    }
+                })
+        )
         viewModel.items.observe(this, Observer<CursorList<Post>> {
-            if (it != null) adapter.submitList(it.list)
+            if (it != null) diffAdapter.submitList(it.list)
+        })
+        viewModel.isLoadingMore.observe(this, Observer<Boolean> {
+            if (it != null) adapter.isLoadingMore = it
         })
     }
 
@@ -91,6 +108,10 @@ class TimelinePostsFragment : Fragment() {
 
     private fun unobserveViewModelForever() {
         viewModel.errorMessage.removeObserver(errorMessageObserver)
+    }
+
+    private fun deinitializeRecyclerView() {
+        recyclerView.clearOnScrollListeners()
     }
 
     private fun showToast(message: String) {
