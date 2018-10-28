@@ -22,7 +22,7 @@ class CreatePostViewModel(
             field = value
             validate()
         }
-    val isContentErrorRequired = MutableLiveData<Boolean>()
+    val isContentErrorRequiredVisible = MutableLiveData<Boolean>().also { it.value = false }
 
     val isButtonSubmitEnabled = MutableLiveData<Boolean>().also { it.value = isPostAllowed() }
     val isSubmitting = MutableLiveData<Boolean>()
@@ -66,7 +66,7 @@ class CreatePostViewModel(
     }
 
     private fun validate() {
-        isContentErrorRequired.value = content.isEmpty()
+        isContentErrorRequiredVisible.value = content.isEmpty()
         isButtonSubmitEnabled.value = isPostAllowed()
     }
 

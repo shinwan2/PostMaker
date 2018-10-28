@@ -59,7 +59,7 @@
                 app:counterEnabled="true"
                 app:counterMaxLength="@{viewModel.getContentMaxLength()}"
                 app:errorEnabled="true"
-                app:errorText="@{viewModel.isContentErrorRequired() ? @string/post_create_required_error : null }"
+                app:errorText="@{viewModel.isContentErrorRequiredVisible() ? @string/post_create_required_error : null }"
                 app:isRecursiveEnabled="@{!(viewModel.isSubmitting() ?? false)}"
                 >
 
