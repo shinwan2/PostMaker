@@ -21,6 +21,7 @@ import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignInBinding
 import com.shinwan2.postmaker.home.HomeActivity
+import com.shinwan2.postmaker.util.Event
 import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -38,6 +39,17 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var viewModel: SignInViewModel
     private lateinit var compositeDisposable: CompositeDisposable
 
+    private val signInObserver = Observer<Boolean> {
+        if (it == true) onSignedIn()
+    }
+
+    private val errorMessageObserver = Observer<Event<String>> {
+        val content = it?.getContentIfNotHandled()
+        if (content != null) {
+            Toast.makeText(this@SignInActivity, content, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -53,17 +65,7 @@ class SignInActivity : AppCompatActivity() {
         supportActionBar!!.title = getString(R.string.signin_title)
 
         initializeViews()
-
-        viewModel.hasSignedIn.observe(this, Observer {
-            if (it == true) onSignedIn()
-        })
-
-        viewModel.errorMessage.observe(this, Observer {
-            val content = it?.getContentIfNotHandled()
-            if (content != null) {
-                Toast.makeText(this@SignInActivity, content, Toast.LENGTH_SHORT).show()
-            }
-        })
+        observeViewModelForever()
     }
 
     override fun onBackPressed() {
@@ -72,6 +74,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        unobserveViewModelForever()
         compositeDisposable.clear()
         super.onDestroy()
     }
@@ -97,6 +100,16 @@ class SignInActivity : AppCompatActivity() {
                 .skipInitialValue()
                 .subscribe { viewModel.passwordText = it.editable.toString() }
         )
+    }
+
+    private fun observeViewModelForever() {
+        viewModel.hasSignedIn.observeForever(signInObserver)
+        viewModel.errorMessage.observeForever(errorMessageObserver)
+    }
+
+    private fun unobserveViewModelForever() {
+        viewModel.hasSignedIn.removeObserver(signInObserver)
+        viewModel.errorMessage.removeObserver(errorMessageObserver)
     }
 
     private fun onSignUpButtonClicked() {
