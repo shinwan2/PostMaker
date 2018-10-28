@@ -65,8 +65,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/signOutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/clickable_transparent_blue"
         android:gravity="center_vertical|start"
         android:padding="@dimen/spacing_2"
         tools:ignore="UseCompoundDrawables"
