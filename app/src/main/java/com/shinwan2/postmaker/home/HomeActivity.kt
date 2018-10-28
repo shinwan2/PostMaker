@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.post.CreatePostActivity
+import com.shinwan2.postmaker.post.TimelinePostsFragment
 import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
@@ -19,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_home.drawerLayout
 import kotlinx.android.synthetic.main.activity_home.fab
 import kotlinx.android.synthetic.main.activity_home.topToolbar
 import javax.inject.Inject
+
+private const val FRAGMENT_TAG = "FRAGMENT_TAG"
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
@@ -49,6 +52,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
         compositeDisposable.add(
             fab.debounceClicks().subscribe { navigateToCreatePost() }
         )
+
+        setFragment()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -83,6 +88,15 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private fun navigateToCreatePost() {
         startActivity(CreatePostActivity.createPostIntent(this))
+    }
+
+    private fun setFragment() {
+        supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as? TimelinePostsFragment
+            ?: TimelinePostsFragment().also {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, it, FRAGMENT_TAG)
+                    .commit()
+            }
     }
 
     companion object {
