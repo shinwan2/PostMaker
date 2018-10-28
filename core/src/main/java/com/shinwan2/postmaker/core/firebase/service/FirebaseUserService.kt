@@ -7,6 +7,7 @@ import com.shinwan2.postmaker.domain.model.EditUserProfileRequest
 import com.shinwan2.postmaker.domain.model.User
 import io.reactivex.Completable
 import io.reactivex.Single
+import timber.log.Timber
 
 class FirebaseUserService internal constructor(
     private val authenticationRepository: FirebaseAuthenticationRepository,
@@ -17,7 +18,7 @@ class FirebaseUserService internal constructor(
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Single.error<User>(IllegalStateException("userId is null"))
             userRepository.getUser(nonNullUserId)
-        }
+        }.doOnError { Timber.w(it, "getUser with ID:$userId fails: ${it.message}") }
     }
 
     override fun editUserProfile(request: EditUserProfileRequest): Completable {
@@ -25,6 +26,6 @@ class FirebaseUserService internal constructor(
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Completable.error(IllegalStateException("userId is null"))
             userRepository.editUserProfile(nonNullUserId, request)
-        }
+        }.doOnError { Timber.w(it, "editUserProfile $request fails: ${it.message}") }
     }
 }

@@ -10,6 +10,7 @@ import com.shinwan2.postmaker.domain.model.Post
 import com.shinwan2.postmaker.domain.model.User
 import io.reactivex.Completable
 import io.reactivex.Single
+import timber.log.Timber
 
 private const val MINIMAL_POSTS = 10
 private const val MAXIMAL_POSTS = 20
@@ -24,7 +25,7 @@ class FirebasePostService internal constructor(
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Completable.error(IllegalStateException("userId is null"))
             postRepository.createPost(nonNullUserId, createPostRequest)
-        }
+        }.doOnError { Timber.w(it, "createPost $createPostRequest fails: ${it.message}") }
     }
 
     override fun getTimelinePosts(cursor: String?, limit: Int): Single<CursorList<Post>> {
@@ -52,7 +53,7 @@ class FirebasePostService internal constructor(
                         }
                         .blockingGet()
                 }
-        }
+        }.doOnError { Timber.w(it, "getTimelinePosts ($cursor,$limit) fails: ${it.message}") }
     }
 
     override fun deletePost(postId: String): Completable {
@@ -60,6 +61,6 @@ class FirebasePostService internal constructor(
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Completable.error(IllegalStateException("userId is null"))
             postRepository.deletePost(nonNullUserId, postId)
-        }
+        }.doOnError { Timber.w(it, "deletePost with ID:$postId fails: ${it.message}") }
     }
 }
