@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_3"
                     android:background="@drawable/btn_yellow"
-                    android:enabled="@{viewModel.isButtonEnabled() ?? false}"
+                    app:isRecursiveEnabled="@{viewModel.isButtonEnabled()}"
                     >
 
                     <TextView
@@ -114,12 +114,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:enabled="@{viewModel.isButtonEnabled() ?? false}"
                         android:text="@string/signin_button_signin"
                         android:textAllCaps="true"
                         android:textColor="?my_textColorPrimary"
                         android:textStyle="bold"
-                        android:visibility="@{safeUnbox(viewModel.isSigningIn()) ? View.GONE : View.VISIBLE}"
+                        app:isVisible="@{!(viewModel.isSigningIn() ?? false)}"
                         />
 
                     <ProgressBar
@@ -128,10 +127,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:enabled="@{viewModel.isButtonEnabled() ?? false}"
                         android:indeterminate="true"
                         android:theme="?my_progressBarTheme"
-                        android:visibility="@{safeUnbox(viewModel.isSigningIn()) ? View.VISIBLE : View.GONE}"
+                        app:isVisible="@{viewModel.isSigningIn()}"
                         tools:visibility="visible"
                         />
                 </FrameLayout>

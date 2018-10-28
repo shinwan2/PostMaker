@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PostMaker</string>
+    <string name="all_emptystate_contentdescription">Empty</string>
 
     <string name="signin_button_signin">Sign in</string>
     <string name="signin_button_signup">Sign up</string>
@@ -32,4 +33,12 @@
     <string name="home_drawer_contentdescription_open">Open drawer</string>
     <string name="home_drawer_contentdescription_close">Close drawer</string>
     <string name="home_drawer_fragment_tag" translatable="false">HOME_DRAWER_FRAGMENT_TAG</string>
+
+    <string name="post_create_menuitem_submit">Submit</string>
+    <string name="post_create_title">Create Post</string>
+    <string name="post_create_hint_textcontent">Create a beautiful story here</string>
+    <string name="post_create_required_error">Content cannot be empty</string>
+    <string name="post_create_message_success">Post submitted!</string>
+
+    <string name="post_list_label_empty">No posts yet, come back later.</string>
 </resources>
