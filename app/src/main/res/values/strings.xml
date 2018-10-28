@@ -39,4 +39,5 @@
     <string name="post_create_message_success">Post submitted!</string>
 
     <string name="post_list_label_empty">No posts yet, come back later.</string>
+    <string name="post_item_userphoto_contentdesription">User Photo</string>
 </resources>
