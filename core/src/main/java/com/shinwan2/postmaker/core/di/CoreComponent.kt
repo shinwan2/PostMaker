@@ -9,7 +9,7 @@ import dagger.Component
 
 @Component(
     modules = [
-        RemoteModule::class,
+        FirebaseServiceModule::class,
         SchedulerModule::class
     ]
 )

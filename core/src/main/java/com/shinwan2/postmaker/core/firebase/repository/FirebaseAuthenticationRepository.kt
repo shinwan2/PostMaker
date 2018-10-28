@@ -1,42 +1,43 @@
-package com.shinwan2.postmaker.core
+package com.shinwan2.postmaker.core.firebase.repository
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.shinwan2.postmaker.domain.auth.AuthenticationException
-import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import io.reactivex.Completable
 import java.util.concurrent.ExecutionException
 
-class FirebaseAuthenticationService(
-    private val firebaseAuth: FirebaseAuth
-) : AuthenticationService {
+internal class FirebaseAuthenticationRepository(private val firebaseAuth: FirebaseAuth) {
 
-    override val userId: String?
+    val userId: String?
         get() = firebaseAuth.uid
 
-    override fun signIn(email: String, password: String): Completable {
+    fun signIn(email: String, password: String): Completable {
         return Completable.create { emitter ->
             try {
                 Tasks.await(firebaseAuth.signInWithEmailAndPassword(email, password))
                 emitter.onComplete()
             } catch (e: ExecutionException) {
                 emitter.onError(AuthenticationException(e.cause!!))
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
         }
     }
 
-    override fun signUp(email: String, password: String): Completable {
+    fun signUp(email: String, password: String): Completable {
         return Completable.create { emitter ->
             try {
                 Tasks.await(firebaseAuth.createUserWithEmailAndPassword(email, password))
                 emitter.onComplete()
             } catch (e: ExecutionException) {
                 emitter.onError(AuthenticationException(e.cause!!))
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
         }
     }
 
-    override fun signOut(): Completable {
+    fun signOut(): Completable {
         return Completable.create { emitter ->
             try {
                 firebaseAuth.signOut()
@@ -47,7 +48,7 @@ class FirebaseAuthenticationService(
         }
     }
 
-    override fun isSignedIn(userId: String?): Boolean {
+    fun isSignedIn(userId: String?): Boolean {
         if (userId == null) return firebaseAuth.currentUser != null
         return firebaseAuth.currentUser?.uid == userId
     }

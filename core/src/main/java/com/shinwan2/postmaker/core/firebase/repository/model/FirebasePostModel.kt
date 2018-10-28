@@ -1,4 +1,4 @@
-package com.shinwan2.postmaker.core.model
+package com.shinwan2.postmaker.core.firebase.repository.model
 
 data class FirebasePostModel(
     var userId: String? = null,
