@@ -22,7 +22,7 @@ internal class TimelinePostsAdapter : ListAdapter<Post, PostViewHolder>(PostDiff
 
     private class PostDiffUtilCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem.postId != newItem.postId
+            return oldItem.postId == newItem.postId
         }
 
         override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
