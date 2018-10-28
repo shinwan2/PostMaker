@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.shinwan2.postmaker.domain.model.Post
 import com.shinwan2.postmaker.util.Event
 import com.shinwan2.postmaker.widget.ListBoundaryCallback
 import com.shinwan2.postmaker.widget.LoadMoreAdapter
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_timeline_posts.recyclerView
 import kotlinx.android.synthetic.main.fragment_timeline_posts.swipeRefreshLayout
@@ -77,11 +79,20 @@ class TimelinePostsFragment : Fragment() {
     }
 
     private fun initializeRecyclerView() {
-        recyclerView.layoutManager =
+        val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = layoutManager
+
         val diffAdapter = TimelinePostsAdapter()
         val adapter = LoadMoreAdapter(diffAdapter)
         recyclerView.adapter = adapter
+
+        recyclerView.addItemDecoration(
+            HorizontalDividerItemDecoration.Builder(requireContext())
+                .color(Color.TRANSPARENT)
+                .size(resources.getDimensionPixelSize(R.dimen.divider_size))
+                .build()
+        )
         recyclerView.addOnScrollListener(
             ListBoundaryCallback(
                 object : ListBoundaryCallback.Continuable {
@@ -94,6 +105,7 @@ class TimelinePostsFragment : Fragment() {
                     }
                 })
         )
+
         viewModel.items.observe(this, Observer<CursorList<Post>> {
             if (it != null) diffAdapter.submitList(it.list)
         })

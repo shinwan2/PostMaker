@@ -33,4 +33,6 @@
     <color name="button_yellow">@color/secondaryColor</color>
     <color name="button_disabled">#CCCCCC</color>
     <color name="button_ripple">#CCCCCC</color>
+
+    <color name="divider_color">#1F000000</color>
 </resources>

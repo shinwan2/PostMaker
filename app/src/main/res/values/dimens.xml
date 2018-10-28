@@ -30,6 +30,7 @@
     <dimen name="home_drawer_menuitem_icon_size">24dp</dimen>
 
     <dimen name="emptystate_image_size">120dp</dimen>
+    <dimen name="divider_size">8dp</dimen>
     <dimen name="progressbar_intoolbar_size">24dp</dimen>
     <dimen name="progressbar_loadmore_size">32dp</dimen>
 
