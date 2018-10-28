@@ -118,7 +118,7 @@
                         android:textAllCaps="true"
                         android:textColor="?my_textColorPrimary"
                         android:textStyle="bold"
-                        app:isVisible="@{viewModel.isSigningIn()}"
+                        app:isVisible="@{!(viewModel.isSigningIn() ?? false)}"
                         />
 
                     <ProgressBar
