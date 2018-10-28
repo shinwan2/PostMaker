@@ -52,26 +52,7 @@ class SignInActivity : AppCompatActivity() {
         setSupportActionBar(topToolbar)
         supportActionBar!!.title = getString(R.string.signin_title)
 
-        signUpButton.createSignUpButtonText()
-        compositeDisposable.add(
-            signInButton.debounceClicks().subscribe { viewModel.signIn() }
-        )
-
-        emailEditText.isSaveEnabled = false
-        emailEditText.setText(viewModel.emailText)
-        compositeDisposable.add(
-            emailEditText.afterTextChangeEvents()
-                .skipInitialValue()
-                .subscribe { viewModel.emailText = it.editable.toString() }
-        )
-
-        passwordEditText.isSaveEnabled = false
-        passwordEditText.setText(viewModel.passwordText)
-        compositeDisposable.add(
-            passwordEditText.afterTextChangeEvents()
-                .skipInitialValue()
-                .subscribe { viewModel.passwordText = it.editable.toString() }
-        )
+        initializeViews()
 
         viewModel.hasSignedIn.observe(this, Observer {
             if (it == true) onSignedIn()
@@ -93,6 +74,29 @@ class SignInActivity : AppCompatActivity() {
     override fun onDestroy() {
         compositeDisposable.clear()
         super.onDestroy()
+    }
+
+    private fun initializeViews() {
+        signUpButton.createSignUpButtonText()
+        compositeDisposable.add(
+            signInButton.debounceClicks().subscribe { viewModel.signIn() }
+        )
+
+        emailEditText.isSaveEnabled = false
+        emailEditText.setText(viewModel.emailText)
+        compositeDisposable.add(
+            emailEditText.afterTextChangeEvents()
+                .skipInitialValue()
+                .subscribe { viewModel.emailText = it.editable.toString() }
+        )
+
+        passwordEditText.isSaveEnabled = false
+        passwordEditText.setText(viewModel.passwordText)
+        compositeDisposable.add(
+            passwordEditText.afterTextChangeEvents()
+                .skipInitialValue()
+                .subscribe { viewModel.passwordText = it.editable.toString() }
+        )
     }
 
     private fun onSignUpButtonClicked() {
