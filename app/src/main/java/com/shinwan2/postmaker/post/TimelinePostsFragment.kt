@@ -91,6 +91,7 @@ class TimelinePostsFragment : Fragment() {
             HorizontalDividerItemDecoration.Builder(requireContext())
                 .color(Color.TRANSPARENT)
                 .size(resources.getDimensionPixelSize(R.dimen.divider_size))
+                .showLastDivider()
                 .build()
         )
         recyclerView.addOnScrollListener(
