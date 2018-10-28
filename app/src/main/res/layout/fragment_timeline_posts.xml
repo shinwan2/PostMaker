@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:my_emptyStateViewText="@string/post_list_label_empty"
-            app:isVisible="@{viewModel.isEmpty() ?? true}"
+            app:isVisible="@{viewModel.isEmpty() ?? false}"
             />
 
         <com.shinwan2.postmaker.widget.MySwipeRefreshLayout
