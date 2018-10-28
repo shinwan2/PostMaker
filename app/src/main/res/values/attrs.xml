@@ -20,4 +20,8 @@
         <attr name="my_emptyStateViewImage" format="reference" />
         <attr name="my_emptyStateViewText" format="string" />
     </declare-styleable>
+    <declare-styleable name="MySwipeRefreshLayout">
+        <attr name="my_swipeRefreshIndicatorColor" format="color" />
+        <attr name="my_swipeRefreshIndicatorBackground" format="color" />
+    </declare-styleable>
 </resources>

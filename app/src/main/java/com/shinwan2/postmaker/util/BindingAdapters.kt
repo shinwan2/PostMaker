@@ -2,6 +2,7 @@ package com.shinwan2.postmaker.util
 
 import android.databinding.BindingAdapter
 import android.support.design.widget.TextInputLayout
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import android.view.ViewGroup
 import java.util.ArrayDeque
@@ -28,4 +29,9 @@ fun setRecursiveEnabled(view: View, isEnabled: Boolean?) {
             }
         }
     }
+}
+
+@BindingAdapter("isRefreshing")
+fun setRefreshing(view: SwipeRefreshLayout, isRefreshing: Boolean?) {
+    view.isRefreshing = isRefreshing ?: false
 }
