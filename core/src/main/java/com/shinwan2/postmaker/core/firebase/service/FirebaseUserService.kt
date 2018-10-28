@@ -17,7 +17,8 @@ class FirebaseUserService internal constructor(
         return Single.defer {
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Single.error<User>(IllegalStateException("userId is null"))
-            userRepository.getUser(nonNullUserId)
+
+            userRepository.getUser(nonNullUserId).firstOrError()
         }.doOnError { Timber.w(it, "getUser with ID:$userId fails: ${it.message}") }
     }
 
@@ -25,6 +26,7 @@ class FirebaseUserService internal constructor(
         return Completable.defer {
             val nonNullUserId: String = authenticationRepository.userId
                 ?: return@defer Completable.error(IllegalStateException("userId is null"))
+
             userRepository.editUserProfile(nonNullUserId, request)
         }.doOnError { Timber.w(it, "editUserProfile $request fails: ${it.message}") }
     }

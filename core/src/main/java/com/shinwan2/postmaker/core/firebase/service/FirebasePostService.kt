@@ -31,13 +31,14 @@ class FirebasePostService internal constructor(
     override fun getTimelinePosts(cursor: String?, limit: Int): Single<CursorList<Post>> {
         return Single.defer {
             postRepository.getTimelinePosts(cursor, limit.coerceIn(MINIMAL_POSTS, MAXIMAL_POSTS))
+                .firstOrError()
                 .map { cursoredPosts ->
                     val getAllUsersForPosts = cursoredPosts.list
                         .asSequence()
                         .map { post -> post.userId }
                         .toSet()
                         .asSequence()
-                        .map { userId -> userRepository.getUser(userId) }
+                        .map { userId -> userRepository.getUser(userId).firstOrError() }
                         .toList()
                     if (getAllUsersForPosts.isEmpty()) {
                         return@map cursoredPosts

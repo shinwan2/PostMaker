@@ -12,7 +12,7 @@ import com.shinwan2.postmaker.domain.model.CreatePostRequest
 import com.shinwan2.postmaker.domain.model.CursorList
 import com.shinwan2.postmaker.domain.model.Post
 import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
 
 internal class FirebasePostRepository(
     private val firebaseDatabase: FirebaseDatabase,
@@ -37,48 +37,52 @@ internal class FirebasePostRepository(
             .observeOn(schedulerManager.backgroundThreadScheduler)
     }
 
-    fun getTimelinePosts(cursor: String?, limit: Int): Single<CursorList<Post>> {
-        return Single.create<CursorList<Post>> { emitter ->
+    fun getTimelinePosts(cursor: String?, limit: Int): Observable<CursorList<Post>> {
+        return Observable.create<CursorList<Post>> { emitter ->
             var query: Query = firebaseDatabase.getReference("posts").orderByKey()
             var limitIncludingBoundary = limit
             if (!cursor.isNullOrBlank()) {
                 query = query.endAt(cursor)
                 limitIncludingBoundary += 1
             }
-            query.limitToLast(limitIncludingBoundary)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        emitter.onError(error.toException())
-                    }
+            query = query.limitToLast(limitIncludingBoundary)
+            val eventListener = object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    if (emitter.isDisposed) return
+                    emitter.onError(error.toException())
+                }
 
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        try {
-                            val posts = snapshot.children
-                                .map {
-                                    val postId = checkNotNull(it.key)
-                                    val post = checkNotNull(
-                                        it.getValue(FirebasePostModel::class.java)
-                                    )
-                                    postId to post
-                                }
-                                .filterNot { it.first == cursor }
-                                .map { (postId, post) ->
-                                    Post(
-                                        postId = postId,
-                                        userId = checkNotNull(post.userId),
-                                        textContent = checkNotNull(post.textContent),
-                                        createdTimestamp = checkNotNull(post.createdTimestamp)
-                                    )
-                                }
-                                .take(limit)
-                                .sortedByDescending { it.createdTimestamp }
-                            val nextCursor = posts.getOrNull(limit - 1)?.postId.orEmpty()
-                            emitter.onSuccess(CursorList(posts, nextCursor))
-                        } catch (e: Exception) {
-                            emitter.onError(e)
-                        }
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (emitter.isDisposed) return
+                    try {
+                        val posts = snapshot.children
+                            .map {
+                                val postId = checkNotNull(it.key)
+                                val post = checkNotNull(
+                                    it.getValue(FirebasePostModel::class.java)
+                                )
+                                postId to post
+                            }
+                            .filterNot { it.first == cursor }
+                            .map { (postId, post) ->
+                                Post(
+                                    postId = postId,
+                                    userId = checkNotNull(post.userId),
+                                    textContent = checkNotNull(post.textContent),
+                                    createdTimestamp = checkNotNull(post.createdTimestamp)
+                                )
+                            }
+                            .take(limit)
+                            .sortedByDescending { it.createdTimestamp }
+                        val nextCursor = posts.getOrNull(limit - 1)?.postId.orEmpty()
+                        emitter.onNext(CursorList(posts, nextCursor))
+                    } catch (e: Exception) {
+                        emitter.onError(e)
                     }
-                })
+                }
+            }
+            query.addValueEventListener(eventListener)
+            emitter.setCancellable { query.removeEventListener(eventListener) }
         }
             .observeOn(schedulerManager.backgroundThreadScheduler)
     }
