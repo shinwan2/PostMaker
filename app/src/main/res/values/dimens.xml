@@ -29,5 +29,6 @@
     <dimen name="home_drawer_width">320dp</dimen>
     <dimen name="home_drawer_menuitem_icon_size">24dp</dimen>
 
+    <dimen name="emptystate_image_size">120dp</dimen>
     <dimen name="progressbar_intoolbar_size">24dp</dimen>
 </resources>

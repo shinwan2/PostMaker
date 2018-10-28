@@ -15,4 +15,9 @@
 
     <attr name="my_editTextTheme" format="reference" />
     <attr name="my_progressBarTheme" format="reference" />
+
+    <declare-styleable name="EmptyStateView">
+        <attr name="my_emptyStateViewImage" format="reference" />
+        <attr name="my_emptyStateViewText" format="string" />
+    </declare-styleable>
 </resources>
