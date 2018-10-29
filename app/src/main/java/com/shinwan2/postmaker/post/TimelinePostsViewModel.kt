@@ -24,8 +24,8 @@ class TimelinePostsViewModel(
     private val schedulerManager: SchedulerManager
 ) : ViewModel(), DeletePostDelegate {
 
-    val isRefreshing = MutableLiveData<Boolean>()
-    val isLoadingMore = MutableLiveData<Boolean>()
+    val isRefreshing = MutableLiveData<Boolean>().also { it.value = false }
+    val isLoadingMore = MutableLiveData<Boolean>().also { it.value = false }
 
     private val deletingPostIds = mutableSetOf<String>()
     private val postToDelete = MutableLiveData<PostViewModel>()
@@ -43,7 +43,7 @@ class TimelinePostsViewModel(
 
     val hasNextPage: Boolean
         get() {
-            val isNextCursorEmpty = items.value?.nextCursor == ""
+            val isNextCursorEmpty = items.value?.nextCursor.isNullOrEmpty()
             return !isNextCursorEmpty
         }
 
@@ -58,6 +58,7 @@ class TimelinePostsViewModel(
     }
 
     override fun deletePost(post: PostViewModel) {
+        if (!post.isDeletable) return
         if (postToDelete.value != null || deletingPostIds.contains(post.postId)) return
         postToDelete.value = post
     }
@@ -129,19 +130,18 @@ class TimelinePostsViewModel(
             .subscribeWith(object : DisposableCompletableObserver() {
                 override fun onStart() {
                     super.onStart()
+                    postToDelete.value = null
                     deletingPostIds.add(post.postId)
                     post.isDeleting.value = true
                 }
 
                 override fun onComplete() {
-                    postToDelete.value = null
                     deletingPostIds.remove(post.postId)
                     removePostWithId(post.postId)
                     successMessage.value = Event(R.string.post_delete_message_success)
                 }
 
                 override fun onError(e: Throwable) {
-                    postToDelete.value = null
                     deletingPostIds.remove(post.postId)
                     errorMessage.value = Event(e.message!!)
                 }
