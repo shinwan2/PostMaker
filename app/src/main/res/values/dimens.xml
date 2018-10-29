@@ -28,6 +28,8 @@
 
     <dimen name="home_drawer_width">320dp</dimen>
     <dimen name="home_drawer_menuitem_icon_size">24dp</dimen>
+    <dimen name="home_drawer_image_size">64dp</dimen>
+    <dimen name="home_drawer_divider_size">1dp</dimen>
 
     <dimen name="emptystate_image_size">120dp</dimen>
     <dimen name="divider_size">8dp</dimen>

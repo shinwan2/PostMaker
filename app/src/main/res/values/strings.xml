@@ -48,4 +48,5 @@
     <string name="post_delete_dialog_message">Are you sure to delete this post? Deleted post cannot be recovered.</string>
     <string name="post_item_userphoto_contentdesription">User Photo</string>
     <string name="post_item_contentdescription_delete">Delete post</string>
+    <string name="home_drawer_displayname">Display name</string>
 </resources>

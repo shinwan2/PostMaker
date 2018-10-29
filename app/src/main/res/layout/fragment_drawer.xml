@@ -10,42 +10,42 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:background="@color/primaryLightColor"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal|bottom"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_3"
+        android:paddingTop="@dimen/spacing_3"
         >
 
         <ImageView
             android:id="@+id/profilePicture"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/home_drawer_image_size"
+            android:layout_height="@dimen/home_drawer_image_size"
+            android:src="@color/button_ripple"
             />
 
         <TextView
             android:id="@+id/displayNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_2"
+            android:layout_marginTop="@dimen/spacing_2"
             android:gravity="center_horizontal"
-            android:text="My header title"
+            android:text="@string/home_drawer_displayname"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_drawer_divider_size"
+        android:background="@color/divider_color"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|start"
-        android:padding="@dimen/spacing_2"
+        android:padding="@dimen/spacing_3"
         tools:ignore="UseCompoundDrawables"
         >
 
@@ -64,13 +64,19 @@
             />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_drawer_divider_size"
+        android:background="@color/divider_color"
+        />
+
     <LinearLayout
         android:id="@+id/signOutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/clickable_transparent_blue"
         android:gravity="center_vertical|start"
-        android:padding="@dimen/spacing_2"
+        android:padding="@dimen/spacing_3"
         tools:ignore="UseCompoundDrawables"
         >
 
