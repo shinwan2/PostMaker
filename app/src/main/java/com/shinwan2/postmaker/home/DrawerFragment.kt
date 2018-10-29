@@ -12,12 +12,14 @@ import com.shinwan2.postmaker.domain.SchedulerManager
 import com.shinwan2.postmaker.domain.UserService
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.model.User
+import com.shinwan2.postmaker.util.buildUserInitialCharImage
 import com.shinwan2.postmaker.util.debounceClicks
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import kotlinx.android.synthetic.main.fragment_drawer.displayNameTextView
+import kotlinx.android.synthetic.main.fragment_drawer.profilePicture
 import kotlinx.android.synthetic.main.fragment_drawer.signOutButton
 import javax.inject.Inject
 
@@ -44,7 +46,7 @@ class DrawerFragment : Fragment() {
             .observeOn(schedulerManager.uiThreadScheduler)
             .subscribeWith(object : DisposableSingleObserver<User>() {
                 override fun onSuccess(user: User) {
-                    displayNameTextView.text = user.displayName
+                    showSimpleProfile(user)
                 }
 
                 override fun onError(e: Throwable) {
@@ -78,6 +80,11 @@ class DrawerFragment : Fragment() {
                 })
         }
         compositeDisposable.add(disposable)
+    }
+
+    private fun showSimpleProfile(user: User) {
+        profilePicture.setImageDrawable(buildUserInitialCharImage(user.displayName, user.email))
+        displayNameTextView.text = user.displayName
     }
 
     private fun showToast(message: String) {
