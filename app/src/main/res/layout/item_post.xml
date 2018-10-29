@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.shinwan2.postmaker.post.PostViewModel"
+            />
+    </data>
+
+    <android.support.v7.widget.CardView
+        style="@style/CardView.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_1"
+        android:layout_marginStart="@dimen/spacing_1"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_3"
+            >
+
+            <ImageView
+                android:id="@+id/userPhotoImageView"
+                android:layout_width="@dimen/post_item_image_size"
+                android:layout_height="@dimen/post_item_image_size"
+                android:contentDescription="@string/post_item_userphoto_contentdesription"
+                app:layout_constraintBottom_toTopOf="@id/postContentTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@color/error_red"
+                />
+
+            <TextView
+                android:id="@+id/userDisplayNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.posterDisplayName}"
+                android:textColor="?my_textColorPrimary"
+                android:textSize="@dimen/text_body"
+                app:layout_constraintBottom_toTopOf="@id/userEmailTextView"
+                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+                app:layout_constraintStart_toEndOf="@id/userPhotoImageView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Monster Hunter"
+                />
+
+            <TextView
+                android:id="@+id/userEmailTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.posterEmail}"
+                android:textColor="?my_textColorSecondary"
+                android:textSize="@dimen/text_caption"
+                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+                app:layout_constraintStart_toEndOf="@id/userPhotoImageView"
+                app:layout_constraintTop_toBottomOf="@id/userDisplayNameTextView"
+                tools:text="Monster Hunter"
+                />
+
+            <ImageView
+                android:id="@+id/deleteButton"
+                android:layout_width="@dimen/post_item_deleteicon_size"
+                android:layout_height="@dimen/post_item_deleteicon_size"
+                android:contentDescription="@string/post_item_contentdescription_delete"
+                android:src="@drawable/ic_delete"
+                android:onClick="@{() -> viewModel.deletePost()}"
+                app:isVisible="@{viewModel.isDeletable &amp;&amp; !(viewModel.isDeleting ?? false)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="@dimen/post_item_deleteicon_size"
+                android:layout_height="@dimen/post_item_deleteicon_size"
+                android:indeterminate="true"
+                android:theme="?my_progressBarTheme"
+                app:isVisible="@{viewModel.isDeleting}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/bottomBarrier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="userEmailTextView,userPhotoImageView"
+                />
+
+            <TextView
+                android:id="@+id/postContentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_2"
+                android:text="@{viewModel.textContent}"
+                android:textColor="?my_textColorPrimary"
+                android:textSize="@dimen/text_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
+                tools:text="Lorem ipsum dolor sit amet"
+                />
+
+            <TextView
+                android:id="@+id/createdDateTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@{viewModel.createdDateTime}"
+                android:textColor="?my_textColorSecondary"
+                android:textSize="@dimen/text_caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postContentTextView"
+                />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>

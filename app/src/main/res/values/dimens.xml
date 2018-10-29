@@ -1,0 +1,41 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- text sizes according to https://www.google.com/design/spec/style/typography.html#typography-styles -->
+    <dimen name="text_display4">112sp</dimen>
+    <dimen name="text_display3">56sp</dimen>
+    <dimen name="text_display2">45sp</dimen>
+    <dimen name="text_display1">34sp</dimen>
+    <dimen name="text_headline">24sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_hint">18sp</dimen>
+    <dimen name="text_subheading">16sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+
+    <dimen name="spacing_1">4dp</dimen>
+    <dimen name="spacing_2">8dp</dimen>
+    <dimen name="spacing_3">16dp</dimen>
+    <dimen name="spacing_4">24dp</dimen>
+
+    <!--defined size-->
+    <dimen name="button_corner_size">2dp</dimen>
+
+    <dimen name="auth_appname_width">240dp</dimen>
+    <dimen name="auth_appname_height">120dp</dimen>
+
+    <dimen name="home_drawer_width">320dp</dimen>
+    <dimen name="home_drawer_menuitem_icon_size">24dp</dimen>
+    <dimen name="home_drawer_image_size">64dp</dimen>
+    <dimen name="home_drawer_divider_size">1dp</dimen>
+
+    <dimen name="emptystate_image_size">120dp</dimen>
+    <dimen name="divider_size">8dp</dimen>
+    <dimen name="progressbar_intoolbar_size">24dp</dimen>
+    <dimen name="progressbar_loadmore_size">32dp</dimen>
+
+    <dimen name="post_item_image_size">32dp</dimen>
+    <dimen name="post_item_deleteicon_size">24dp</dimen>
+</resources>

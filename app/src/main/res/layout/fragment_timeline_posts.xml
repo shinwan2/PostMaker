@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="com.shinwan2.postmaker.post.TimelinePostsViewModel"
+            />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <com.shinwan2.postmaker.widget.EmptyStateView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:my_emptyStateViewText="@string/post_list_label_empty"
+            app:isVisible="@{viewModel.isEmpty() ?? false}"
+            />
+
+        <com.shinwan2.postmaker.widget.MySwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            style="@style/MySwipeRefreshLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isRefreshing="@{viewModel.isRefreshing()}"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                />
+        </com.shinwan2.postmaker.widget.MySwipeRefreshLayout>
+    </FrameLayout>
+</layout>

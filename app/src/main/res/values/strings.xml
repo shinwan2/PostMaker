@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">PostMaker</string>
+    <string name="all_emptystate_contentdescription">Empty</string>
+    <string name="all_button_ok">OK</string>
+    <string name="all_button_cancel">Cancel</string>
+
+    <string name="signin_button_signin">Sign in</string>
+    <string name="signin_button_signup">Sign up</string>
+    <string name="signin_contentdescription_appname">PostMaker app logo</string>
+    <string name="signin_email_hint">Email</string>
+    <string name="signin_email_required_error">Email is required</string>
+    <string name="signin_imeaction_short">Sign in</string>
+    <string name="signin_label_noaccount_format">Don\'t have an account yet? %s</string>
+    <string name="signin_message_success">You are signed in</string>
+    <string name="signin_password_hint">Password</string>
+    <string name="signin_password_required_error">Password is required</string>
+    <string name="signin_title">Sign In</string>
+
+    <string name="signup_button_signin">Sign in</string>
+    <string name="signup_button_signup">Sign up</string>
+    <string name="signup_email_hint">Email</string>
+    <string name="signup_email_required_error">Email is required</string>
+    <string name="signup_imeaction_short">Sign up</string>
+    <string name="signup_label_createaccount">Create your account</string>
+    <string name="signup_label_haveaccount_format">Have an account? %s</string>
+    <string name="signup_message_success">You are signed in</string>
+    <string name="signup_password_hint">Password</string>
+    <string name="signup_password_required_error">Email is required</string>
+    <string name="signup_title">Sign Up</string>
+
+    <string name="signout_message_success">Successfully signed out</string>
+
+    <string name="home_title">Timeline</string>
+    <string name="home_drawer_menuitem_profile">Profile</string>
+    <string name="home_drawer_menuitem_signout">Sign Out</string>
+    <string name="home_drawer_contentdescription_open">Open drawer</string>
+    <string name="home_drawer_contentdescription_close">Close drawer</string>
+    <string name="home_drawer_fragment_tag" translatable="false">HOME_DRAWER_FRAGMENT_TAG</string>
+
+    <string name="post_create_menuitem_submit">Submit</string>
+    <string name="post_create_title">Create Post</string>
+    <string name="post_create_hint_textcontent">Create a beautiful story here</string>
+    <string name="post_create_required_error">Content cannot be empty</string>
+    <string name="post_create_message_success">Post submitted!</string>
+
+    <string name="post_list_label_empty">No posts yet, come back later.</string>
+    <string name="post_delete_message_success">Post deleted!</string>
+    <string name="post_delete_dialog_title">Delete confirmation</string>
+    <string name="post_delete_dialog_message">Are you sure to delete this post? Deleted post cannot be recovered.</string>
+    <string name="post_item_userphoto_contentdesription">User Photo</string>
+    <string name="post_item_contentdescription_delete">Delete post</string>
+    <string name="home_drawer_displayname">Display name</string>
+</resources>
