@@ -1,4 +1,4 @@
-package com.shinwan2.postmaker.auth
+package com.shinwan2.postmaker
 
 import com.shinwan2.postmaker.domain.PostService
 import com.shinwan2.postmaker.domain.UserService
@@ -26,10 +26,23 @@ internal val POST_SERVICE_ALL_OK = object: PostService {
     }
 
     override fun getTimelinePosts(cursor: String?, limit: Int): Single<CursorList<Post>> {
-        return Single.just(CursorList(
-            list = listOf(MOCK_POST1, MOCK_POST2),
-            nextCursor = NEXT_CURSOR
-        ))
+        return Single.defer {
+            if (cursor == null) {
+                Single.just(
+                    CursorList(
+                        list = listOf(MOCK_POST1),
+                        nextCursor = NEXT_CURSOR
+                    )
+                )
+            } else {
+                Single.just(
+                    CursorList(
+                        list = listOf(MOCK_POST2),
+                        nextCursor = ""
+                    )
+                )
+            }
+        }
     }
 
     override fun deletePost(postId: String): Completable {

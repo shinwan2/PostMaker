@@ -13,7 +13,9 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import com.shinwan2.postmaker.DaggerCoreTestComponent
 import com.shinwan2.postmaker.MyApplication
+import com.shinwan2.postmaker.POST_SERVICE_ALL_OK
 import com.shinwan2.postmaker.R
+import com.shinwan2.postmaker.USER_SERVICE_ALL_OK
 import com.shinwan2.postmaker.di.DaggerApplicationComponent
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.home.HomeActivity
