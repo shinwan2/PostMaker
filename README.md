@@ -15,6 +15,12 @@ view posts, and delete his/her own post.
 1. Android Device minimum API Level 19
 2. Built using Android Studio 3.2.1
 
+### Improvements
+1. Add push notification after any post/batch of posts are submitted. <br />
+    Currently user needs to manually refresh once his/her post are submitted from the same device.
+2. Edit profile, upload photo to Firebase Storage.
+3. Manage your own posts.
+
 License
 =======
 
