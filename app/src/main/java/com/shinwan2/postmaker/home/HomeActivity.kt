@@ -38,6 +38,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         setSupportActionBar(topToolbar)
         supportActionBar!!.apply {
+            setTitle(R.string.home_title)
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
         }
