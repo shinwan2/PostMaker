@@ -2,13 +2,41 @@ package com.shinwan2.postmaker
 
 import com.shinwan2.postmaker.domain.PostService
 import com.shinwan2.postmaker.domain.UserService
+import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.model.CreatePostRequest
 import com.shinwan2.postmaker.domain.model.CursorList
 import com.shinwan2.postmaker.domain.model.EditUserProfileRequest
 import com.shinwan2.postmaker.domain.model.Post
 import com.shinwan2.postmaker.domain.model.User
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
+
+internal val AUTHENTICATION_SERVICE_SIGNED_IN = object : AuthenticationService {
+    override val userId: String?
+        get() = MOCK_USER_23.userId
+
+    override fun signIn(email: String, password: String): Completable {
+        return Completable.complete()
+    }
+
+    override fun signUp(email: String, password: String): Completable {
+        return Completable.complete()
+    }
+
+    override fun signOut(): Completable {
+        return Completable.complete()
+    }
+
+    override fun isSignedIn(userId: String?): Boolean {
+        return true
+    }
+
+    override fun authStateChanged(): Observable<Boolean> {
+        return Observable.never()
+    }
+
+}
 
 internal val USER_SERVICE_ALL_OK = object: UserService {
     override fun getUser(userId: String?): Single<User> {
