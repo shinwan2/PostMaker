@@ -11,7 +11,7 @@ import android.view.MenuItem
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.post.CreatePostActivity
 import com.shinwan2.postmaker.post.TimelinePostsFragment
-import com.shinwan2.postmaker.util.debounceClicks
+import com.shinwan2.postmaker.util.throttleClicks
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector {
         drawerLayout.addDrawerListener(drawerToggle)
 
         compositeDisposable.add(
-            fab.debounceClicks().subscribe { navigateToCreatePost() }
+            fab.throttleClicks().subscribe { navigateToCreatePost() }
         )
 
         setFragment()

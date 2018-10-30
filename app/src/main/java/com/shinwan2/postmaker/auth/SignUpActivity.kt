@@ -22,7 +22,7 @@ import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignUpBinding
 import com.shinwan2.postmaker.home.HomeActivity
 import com.shinwan2.postmaker.util.Event
-import com.shinwan2.postmaker.util.debounceClicks
+import com.shinwan2.postmaker.util.throttleClicks
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_sign_up.emailEditText
@@ -82,7 +82,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun initializeViews() {
         signInButton.createSignInButtonText()
         compositeDisposable.add(
-            signUpButton.debounceClicks().subscribe { viewModel.signUp() }
+            signUpButton.throttleClicks().subscribe { viewModel.signUp() }
         )
 
         emailEditText.isSaveEnabled = false

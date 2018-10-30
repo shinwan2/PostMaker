@@ -74,8 +74,6 @@ class SignUpActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.signUpButton))
             .perform(ViewActions.click())
 
-        // we need to delay for debounce
-        Thread.sleep(500)
         Intents.intended(IntentMatchers.hasComponent(HomeActivity::class.java.name))
     }
 }

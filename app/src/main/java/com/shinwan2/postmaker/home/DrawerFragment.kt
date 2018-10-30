@@ -13,7 +13,7 @@ import com.shinwan2.postmaker.domain.UserService
 import com.shinwan2.postmaker.domain.auth.AuthenticationService
 import com.shinwan2.postmaker.domain.model.User
 import com.shinwan2.postmaker.util.buildUserInitialCharImage
-import com.shinwan2.postmaker.util.debounceClicks
+import com.shinwan2.postmaker.util.throttleClicks
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
@@ -65,7 +65,7 @@ class DrawerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val disposable = signOutButton.debounceClicks().subscribe {
+        val disposable = signOutButton.throttleClicks().subscribe {
             authenticationService.signOut()
                 .subscribeOn(schedulerManager.backgroundThreadScheduler)
                 .observeOn(schedulerManager.uiThreadScheduler)

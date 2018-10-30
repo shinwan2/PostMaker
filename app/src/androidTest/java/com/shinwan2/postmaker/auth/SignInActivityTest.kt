@@ -7,7 +7,6 @@ import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.filters.MediumTest
 import android.support.test.runner.AndroidJUnit4
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -30,7 +29,6 @@ private const val VALID_EMAIL = "abcdef@gmail.com"
 private const val VALID_PASSWORD = "123456"
 
 @RunWith(AndroidJUnit4::class)
-@MediumTest
 class SignInActivityTest {
 
     @get:Rule
@@ -74,8 +72,6 @@ class SignInActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.signInButton))
             .perform(ViewActions.click())
 
-        // we need to delay for debounce
-        Thread.sleep(500)
         Intents.intended(IntentMatchers.hasComponent(HomeActivity::class.java.name))
     }
 }

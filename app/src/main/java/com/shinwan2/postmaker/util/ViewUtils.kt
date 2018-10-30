@@ -7,13 +7,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-private val CLICK_DEBOUNCE_TIMEOUT = Pair(500L, TimeUnit.MILLISECONDS)
+private val CLICK_THROTTLE_TIMEOUT = Pair(500L, TimeUnit.MILLISECONDS)
 
-fun View.debounceClicks(): Observable<Unit> {
+fun View.throttleClicks(): Observable<Unit> {
     return this.clicks()
-        .debounce(
-            CLICK_DEBOUNCE_TIMEOUT.first,
-            CLICK_DEBOUNCE_TIMEOUT.second,
+        .throttleFirst(
+            CLICK_THROTTLE_TIMEOUT.first,
+            CLICK_THROTTLE_TIMEOUT.second,
             Schedulers.io()
         )
         .observeOn(AndroidSchedulers.mainThread())
