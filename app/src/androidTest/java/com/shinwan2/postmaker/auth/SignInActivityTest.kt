@@ -74,4 +74,20 @@ class SignInActivityTest {
 
         Intents.intended(IntentMatchers.hasComponent(HomeActivity::class.java.name))
     }
+
+    @Test
+    fun testSignInSucceedsFromImeAction() {
+        whenever(authenticationService.signIn(VALID_EMAIL, VALID_PASSWORD))
+            .thenReturn(Completable.complete())
+
+        intentsTestRule.launchActivity(null)
+
+        Espresso.onView(ViewMatchers.withId(R.id.emailEditText))
+            .perform(ViewActions.typeText(VALID_EMAIL))
+        Espresso.onView(ViewMatchers.withId(R.id.passwordEditText))
+            .perform(ViewActions.typeText(VALID_PASSWORD))
+            .perform(ViewActions.pressImeActionButton())
+
+        Intents.intended(IntentMatchers.hasComponent(HomeActivity::class.java.name))
+    }
 }

@@ -15,9 +15,11 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.TextView
 import android.widget.Toast
 import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
+import com.jakewharton.rxbinding3.widget.editorActions
 import com.shinwan2.postmaker.R
 import com.shinwan2.postmaker.databinding.ActivitySignUpBinding
 import com.shinwan2.postmaker.home.HomeActivity
@@ -99,6 +101,10 @@ class SignUpActivity : AppCompatActivity() {
             passwordEditText.afterTextChangeEvents()
                 .skipInitialValue()
                 .subscribe { viewModel.passwordText = it.editable.toString() }
+        )
+        compositeDisposable.add(
+            passwordEditText.editorActions { it == IME_ACTION_DONE }
+                .subscribe { viewModel.signUp() }
         )
     }
 
