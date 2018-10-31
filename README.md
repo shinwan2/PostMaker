@@ -7,7 +7,8 @@ view posts, and delete his/her own post.
 
 ### How to run
 1. You need to set up your own Firebase Project in [Firebase Console](https://console.firebase.google.com).
-    Spark plan is free with a certain limit.
+    Spark plan is free with a certain limit. <br>
+    Please contact me by email shinwan2@gmail.com for a copy of my `google-services.json`.
 2. Once set up, download and place your `google-services.json` in `/app` directory.
 3. Build and run this project.
 
